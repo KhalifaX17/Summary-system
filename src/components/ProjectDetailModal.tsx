@@ -46,6 +46,7 @@ export default function ProjectDetailModal({
           <Row label="ปีงบประมาณ" value={project.fiscalYear} />
           <Row label="พันธกิจ" value={project.mission} />
         </div>
+        <Row label="ตัวบ่งชี้ QA ที่เกี่ยวข้อง" value={project.qaIndicator} />
         <Row
           label="ช่วงเวลาดำเนินการ"
           value={project.startDate || project.endDate ? `${project.startDate || "-"} ถึง ${project.endDate || "-"}` : undefined}

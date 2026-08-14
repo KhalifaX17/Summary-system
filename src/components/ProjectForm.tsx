@@ -75,6 +75,15 @@ export default function ProjectForm({ project }: { project?: Project }) {
             </select>
           </div>
           <div className="md:col-span-2">
+            <label className={label}>ตัวบ่งชี้ QA ที่เกี่ยวข้อง (ถ้ามี)</label>
+            <input
+              name="qaIndicator"
+              defaultValue={project?.qaIndicator}
+              className={field}
+              placeholder="เช่น องค์ประกอบที่ 3 ตัวบ่งชี้ 3.2"
+            />
+          </div>
+          <div className="md:col-span-2">
             <label className={label}>หลักการและเหตุผล</label>
             <textarea name="rationale" defaultValue={project?.rationale} className={`${field} min-h-16`} />
           </div>
