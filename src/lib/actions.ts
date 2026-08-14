@@ -80,7 +80,7 @@ export async function saveProjectAction(formData: FormData): Promise<void> {
 
   revalidatePath("/dashboard");
   revalidatePath("/projects");
-  redirect("/projects");
+  redirect(id ? "/projects?toast=updated" : "/projects?toast=created");
 }
 
 export async function deleteProjectAction(id: string): Promise<void> {

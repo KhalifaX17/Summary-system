@@ -18,7 +18,7 @@ export default function Topbar({
       {!hideAdd && (
         <Link
           href="/projects/new"
-          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-[13.5px] font-medium px-4 py-2 rounded-[9px] transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-primary/25"
+          className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-[13.5px] font-medium px-4 py-2 rounded-[9px] transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-primary/25 active:scale-[0.97] active:translate-y-0"
         >
           + เพิ่มโครงการใหม่
         </Link>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Project, MISSION_OPTIONS, STATUS_OPTIONS } from "@/lib/types";
 import StatusBadge from "@/components/StatusBadge";
@@ -8,16 +9,34 @@ import { deleteProjectAction } from "@/lib/actions";
 import { IconEmptyBox, IconPlus } from "@/components/icons";
 import ExportDialog from "@/components/ExportDialog";
 import ProjectDetailModal from "@/components/ProjectDetailModal";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import { showToast } from "@/components/Toast";
 import { canEditProject } from "@/lib/projectRules";
 
+const TOAST_MESSAGES: Record<string, string> = {
+  created: "เพิ่มโครงการเรียบร้อยแล้ว",
+  updated: "บันทึกการแก้ไขเรียบร้อยแล้ว",
+};
+
 export default function ProjectsTable({ projects }: { projects: Project[] }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [query, setQuery] = useState("");
   const [fiscalYear, setFiscalYear] = useState("");
   const [mission, setMission] = useState("");
   const [status, setStatus] = useState("");
   const [isPending, startTransition] = useTransition();
-  const [pendingId, setPendingId] = useState<string | null>(null);
   const [selected, setSelected] = useState<Project | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Project | null>(null);
+
+  useEffect(() => {
+    const toastKey = searchParams.get("toast");
+    if (toastKey && TOAST_MESSAGES[toastKey]) {
+      showToast(TOAST_MESSAGES[toastKey]);
+      router.replace("/projects");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const fiscalYears = useMemo(
     () => Array.from(new Set(projects.map((p) => p.fiscalYear).filter(Boolean))).sort().reverse(),
@@ -35,12 +54,13 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
     });
   }, [projects, query, fiscalYear, mission, status]);
 
-  function handleDelete(id: string) {
-    if (!confirm("ยืนยันการลบโครงการนี้หรือไม่?")) return;
-    setPendingId(id);
+  function confirmDelete() {
+    if (!deleteTarget) return;
+    const target = deleteTarget;
     startTransition(async () => {
-      await deleteProjectAction(id);
-      setPendingId(null);
+      await deleteProjectAction(target.id);
+      setDeleteTarget(null);
+      showToast(`ลบ "${target.projectName}" แล้ว`);
     });
   }
 
@@ -94,7 +114,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
           <ExportDialog fiscalYears={fiscalYears} initialYear={fiscalYear || undefined} />
           <Link
             href="/projects/new"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-[13px] font-medium px-4 py-2.5 rounded-[9px] transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-primary/25"
+            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-[13px] font-medium px-4 py-2.5 rounded-[9px] transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-primary/25 active:scale-[0.97]"
           >
             <IconPlus className="w-4 h-4" />
             เพิ่มโครงการ
@@ -122,7 +142,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                 <tr
                   key={p.id}
                   onClick={() => setSelected(p)}
-                  className="border-t border-border hover:bg-paper/60 cursor-pointer"
+                  className="border-t border-border hover:bg-paper/60 cursor-pointer transition-colors active:bg-paper"
                 >
                   <td className="px-3.5 py-3 whitespace-nowrap">{p.id}</td>
                   <td className="px-3.5 py-3 max-w-[260px]">{p.projectName}</td>
@@ -138,7 +158,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                     {editable ? (
                       <Link
                         href={`/projects/${p.id}/edit`}
-                        className="inline-block px-2.5 py-1.5 rounded-[8px] border border-border text-[12.5px] mr-1 hover:bg-paper"
+                        className="inline-block px-2.5 py-1.5 rounded-[8px] border border-border text-[12.5px] mr-1 hover:bg-paper transition-all active:scale-[0.95]"
                       >
                         แก้ไข
                       </Link>
@@ -151,9 +171,8 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                       </span>
                     )}
                     <button
-                      onClick={() => handleDelete(p.id)}
-                      disabled={isPending && pendingId === p.id}
-                      className="px-2 py-1.5 text-[12.5px] text-red disabled:opacity-50"
+                      onClick={() => setDeleteTarget(p)}
+                      className="px-2 py-1.5 text-[12.5px] text-red transition-all active:scale-[0.95] rounded-[8px] hover:bg-red/10"
                     >
                       ลบ
                     </button>
@@ -172,6 +191,18 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
       </div>
 
       {selected && <ProjectDetailModal project={selected} onClose={() => setSelected(null)} />}
+
+      {deleteTarget && (
+        <ConfirmDialog
+          title="ยืนยันการลบโครงการ"
+          description={`ต้องการลบ "${deleteTarget.projectName}" ใช่หรือไม่ — การลบไม่สามารถย้อนกลับได้`}
+          confirmLabel="ลบโครงการ"
+          danger
+          loading={isPending}
+          onConfirm={confirmDelete}
+          onClose={() => setDeleteTarget(null)}
+        />
+      )}
     </div>
   );
 }

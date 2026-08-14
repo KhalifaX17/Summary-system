@@ -25,7 +25,7 @@ export default function AttentionPanel({ items }: { items: AttentionItem[] }) {
               key={`${item.project.id}-${item.reason}-${i}`}
               type="button"
               onClick={() => setSelected(item.project)}
-              className="w-full flex items-center gap-3 py-2.5 border-t border-border first:border-t-0 hover:bg-paper/60 -mx-2 px-2 rounded-lg text-left"
+              className="w-full flex items-center gap-3 py-2.5 border-t border-border first:border-t-0 hover:bg-paper/60 -mx-2 px-2 rounded-lg text-left transition-all active:scale-[0.99] active:bg-paper"
             >
               <div
                 className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${

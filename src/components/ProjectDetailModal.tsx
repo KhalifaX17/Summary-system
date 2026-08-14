@@ -89,7 +89,7 @@ export default function ProjectDetailModal({
         {editable ? (
           <Link
             href={`/projects/${project.id}/edit`}
-            className="inline-flex items-center gap-1.5 bg-primary hover:bg-primary-dark text-white text-[13px] font-medium px-4 py-2 rounded-[9px] transition-colors"
+            className="inline-flex items-center gap-1.5 bg-primary hover:bg-primary-dark text-white text-[13px] font-medium px-4 py-2 rounded-[9px] transition-all active:scale-[0.96]"
           >
             แก้ไขโครงการ
           </Link>
@@ -99,7 +99,7 @@ export default function ProjectDetailModal({
         <button
           type="button"
           onClick={onClose}
-          className="text-[13px] text-muted hover:text-ink px-3 py-2"
+          className="text-[13px] text-muted hover:text-ink px-3 py-2 transition-transform active:scale-95"
         >
           ปิด
         </button>

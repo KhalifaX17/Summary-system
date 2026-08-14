@@ -31,7 +31,7 @@ export default function RecentActivity({ projects }: { projects: Project[] }) {
               key={p.id}
               type="button"
               onClick={() => setSelected(p)}
-              className="w-full flex items-center justify-between gap-3 py-2.5 border-t border-border first:border-t-0 hover:bg-paper/60 -mx-2 px-2 rounded-lg text-left"
+              className="w-full flex items-center justify-between gap-3 py-2.5 border-t border-border first:border-t-0 hover:bg-paper/60 -mx-2 px-2 rounded-lg text-left transition-all active:scale-[0.99] active:bg-paper"
             >
               <div className="min-w-0 flex-1">
                 <div className="text-[13px] truncate">{p.projectName}</div>

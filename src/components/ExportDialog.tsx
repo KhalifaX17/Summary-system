@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Modal from "./Modal";
+import { showToast } from "./Toast";
 import { IconDownload, IconFileCsv, IconFileExcel, IconFilePdf } from "./icons";
 
 const FORMATS = [
@@ -25,7 +26,7 @@ function RadioRow({
     <button
       type="button"
       onClick={onClick}
-      className={`w-full text-left flex items-start gap-3 px-3.5 py-3 rounded-[10px] border transition-colors ${
+      className={`w-full text-left flex items-start gap-3 px-3.5 py-3 rounded-[10px] border transition-all active:scale-[0.98] ${
         checked ? "border-primary bg-primary/5" : "border-border hover:bg-paper"
       }`}
     >
@@ -76,7 +77,7 @@ export default function ExportDialog({
       <button
         type="button"
         onClick={openDialog}
-        className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-[9px] border border-border bg-surface text-[13px] font-medium hover:bg-paper transition-colors"
+        className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-[9px] border border-border bg-surface text-[13px] font-medium hover:bg-paper transition-all active:scale-[0.97]"
       >
         <IconDownload className="w-4 h-4" />
         ส่งออกข้อมูล
@@ -141,8 +142,11 @@ export default function ExportDialog({
               <a
                 key={path}
                 href={`/api/export/${path}${query}`}
-                onClick={() => setOpen(false)}
-                className="flex flex-col items-center gap-1.5 py-3.5 rounded-[10px] border border-border hover:border-gold/50 hover:bg-paper transition-colors"
+                onClick={() => {
+                  setOpen(false);
+                  showToast(`กำลังดาวน์โหลด ${label}...`);
+                }}
+                className="flex flex-col items-center gap-1.5 py-3.5 rounded-[10px] border border-border hover:border-gold/50 hover:bg-paper transition-all active:scale-[0.95]"
               >
                 <Icon className={`w-6 h-6 ${color}`} />
                 <span className="text-[12px] font-medium text-ink">{label}</span>

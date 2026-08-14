@@ -177,7 +177,7 @@ function YearPill({ label, active, onClick }: { label: string; active: boolean; 
     <button
       type="button"
       onClick={onClick}
-      className={`px-3 py-1.5 rounded-full text-[12.5px] font-medium transition-colors ${
+      className={`px-3 py-1.5 rounded-full text-[12.5px] font-medium transition-all active:scale-[0.94] ${
         active ? "bg-navy text-white" : "text-muted hover:bg-paper"
       }`}
     >

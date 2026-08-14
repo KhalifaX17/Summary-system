@@ -38,13 +38,13 @@ export default function HomePage() {
           <div className="animate-fade-up flex flex-wrap gap-3" style={{ animationDelay: "0.28s" }}>
             <Link
               href="/dashboard"
-              className="bg-primary hover:bg-primary-dark text-white text-[14px] font-medium px-5 py-2.5 rounded-[10px] transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/25"
+              className="bg-primary hover:bg-primary-dark text-white text-[14px] font-medium px-5 py-2.5 rounded-[10px] transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/25 active:scale-[0.97] active:translate-y-0"
             >
               ไปที่แดชบอร์ด
             </Link>
             <Link
               href="/projects/new"
-              className="bg-surface border border-border hover:border-gold/50 hover:bg-paper text-ink text-[14px] font-medium px-5 py-2.5 rounded-[10px] transition-all hover:-translate-y-0.5"
+              className="bg-surface border border-border hover:border-gold/50 hover:bg-paper text-ink text-[14px] font-medium px-5 py-2.5 rounded-[10px] transition-all hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0"
             >
               + เพิ่มโครงการใหม่
             </Link>

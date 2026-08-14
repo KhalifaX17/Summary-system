@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { saveProjectAction } from "@/lib/actions";
+import { showToast } from "@/components/Toast";
 import { Attachment, MISSION_OPTIONS, Project, STATUS_OPTIONS } from "@/lib/types";
 
 function SubmitButton() {
@@ -11,7 +12,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="bg-primary hover:bg-primary-dark disabled:opacity-60 text-white text-[13.5px] font-medium px-5 py-2.5 rounded-[9px] transition-colors"
+      className="bg-primary hover:bg-primary-dark disabled:opacity-60 text-white text-[13.5px] font-medium px-5 py-2.5 rounded-[9px] transition-all active:scale-[0.97] disabled:active:scale-100"
     >
       {pending ? "กำลังบันทึก..." : "บันทึกโครงการ"}
     </button>
@@ -192,10 +193,20 @@ export default function ProjectForm({ project }: { project?: Project }) {
       <Section title="ไฟล์แนบ / หลักฐาน">
         <div
           onClick={() => fileInputRef.current?.click()}
-          className="border-[1.5px] border-dashed border-border rounded-[10px] p-4 text-center text-[12.5px] text-muted bg-paper cursor-pointer hover:border-primary"
+          className="border-[1.5px] border-dashed border-border rounded-[10px] p-4 text-center text-[12.5px] text-muted bg-paper cursor-pointer hover:border-primary transition-all active:scale-[0.99]"
         >
           คลิกเพื่อเลือกไฟล์ หรือรูปภาพหลักฐานการดำเนินงาน (อัปโหลดขึ้น Google Drive เมื่อกดบันทึก)
-          <input ref={fileInputRef} type="file" name="newFiles" multiple className="hidden" />
+          <input
+            ref={fileInputRef}
+            type="file"
+            name="newFiles"
+            multiple
+            className="hidden"
+            onChange={(e) => {
+              const n = e.target.files?.length ?? 0;
+              if (n > 0) showToast(`เลือกไฟล์แล้ว ${n} รายการ — จะอัปโหลดตอนกดบันทึกโครงการ`);
+            }}
+          />
         </div>
         {attachments.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-3">
@@ -210,7 +221,7 @@ export default function ProjectForm({ project }: { project?: Project }) {
                 <button
                   type="button"
                   onClick={() => setAttachments((prev) => prev.filter((_, idx) => idx !== i))}
-                  className="text-red font-bold"
+                  className="text-red font-bold transition-transform active:scale-[0.85]"
                 >
                   ×
                 </button>
@@ -223,7 +234,7 @@ export default function ProjectForm({ project }: { project?: Project }) {
       <div className="flex justify-end gap-2.5">
         <a
           href="/projects"
-          className="px-4 py-2.5 rounded-[9px] border border-border text-[13.5px] hover:bg-paper"
+          className="px-4 py-2.5 rounded-[9px] border border-border text-[13.5px] hover:bg-paper transition-all active:scale-[0.97]"
         >
           ยกเลิก
         </a>

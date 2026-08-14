@@ -33,7 +33,7 @@ export default async function EditProjectPage({
             </p>
             <Link
               href="/projects"
-              className="inline-block bg-primary hover:bg-primary-dark text-white text-[13.5px] font-medium px-4 py-2.5 rounded-[9px] transition-colors"
+              className="inline-block bg-primary hover:bg-primary-dark text-white text-[13.5px] font-medium px-4 py-2.5 rounded-[9px] transition-all active:scale-[0.97]"
             >
               กลับไปหน้ารายการโครงการ
             </Link>

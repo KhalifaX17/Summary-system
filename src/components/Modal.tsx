@@ -37,7 +37,7 @@ export default function Modal({
           type="button"
           onClick={onClose}
           aria-label="ปิด"
-          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-muted hover:bg-paper hover:text-ink transition-colors"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-muted hover:bg-paper hover:text-ink transition-all active:scale-90"
         >
           <svg viewBox="0 0 20 20" fill="none" width="16" height="16">
             <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />

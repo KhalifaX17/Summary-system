@@ -70,7 +70,7 @@ export default function FeatureShowcase() {
             key={f.title}
             type="button"
             onClick={() => setOpenIndex(i)}
-            className="animate-fade-up group text-left bg-surface border border-border rounded-2xl p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-gold/40 cursor-pointer"
+            className="animate-fade-up group text-left bg-surface border border-border rounded-2xl p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-gold/40 cursor-pointer active:scale-[0.98] active:translate-y-0"
             style={{ animationDelay: `${0.1 + i * 0.08}s` }}
           >
             <div className="w-9 h-9 rounded-[10px] bg-primary/10 text-primary flex items-center justify-center mb-3.5 transition-colors duration-300 group-hover:bg-gold group-hover:text-white">
