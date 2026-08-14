@@ -21,7 +21,7 @@ export default async function EditProjectPage({
     return (
       <div>
         <Topbar title="แก้ไขโครงการ" subtitle={project.projectName} hideAdd />
-        <div className="px-6 py-10 md:px-8 max-w-2xl">
+        <div className="px-6 py-10 md:px-8 max-w-2xl mx-auto">
           <div className="bg-surface border border-border rounded-2xl p-8 text-center">
             <div className="mb-3 flex justify-center">
               <StatusBadge status={project.status} />
@@ -46,7 +46,7 @@ export default async function EditProjectPage({
   return (
     <div>
       <Topbar title="แก้ไขโครงการ" subtitle={project.projectName} hideAdd />
-      <div className="px-6 py-6 md:px-8 max-w-3xl">
+      <div className="px-6 py-6 md:px-8 max-w-3xl mx-auto">
         <ProjectForm project={project} />
       </div>
     </div>
