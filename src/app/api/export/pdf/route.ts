@@ -157,6 +157,7 @@ export async function GET(request: Request) {
       drawField("หน่วยงาน", p.department);
       drawField("ผู้รับผิดชอบ", p.owner);
       drawField("ปีงบประมาณ / พันธกิจ", `${p.fiscalYear || "-"}  /  ${p.mission || "-"}`);
+      drawField("ตัวบ่งชี้ QA", p.qaIndicator);
       drawField("สถานะ", p.status);
       drawField("ช่วงเวลา", `${p.startDate || "-"} ถึง ${p.endDate || "-"}`);
       drawField("วัตถุประสงค์", p.objective);
