@@ -59,12 +59,21 @@ export async function saveProjectAction(formData: FormData): Promise<void> {
   const existingAttachmentsRaw = (formData.get("existingAttachments") as string) || "[]";
   let attachments: Attachment[] = JSON.parse(existingAttachmentsRaw);
 
-  const files = formData.getAll("newFiles") as File[];
+  const files = (formData.getAll("newFiles") as File[]).filter(
+    (file) => file && file.size > 0
+  );
+
+  // Save first so new projects have an ID before files are placed in Drive.
+  const savedProject = await saveProject({
+    ...(fields as ProjectInput),
+    id,
+    attachments,
+  });
+
   for (const file of files) {
-    if (!file || file.size === 0) continue;
     const buffer = Buffer.from(await file.arrayBuffer());
     const uploaded = await uploadAttachment(
-      id || "unassigned",
+      savedProject.id,
       file.name,
       file.type || "application/octet-stream",
       buffer
@@ -72,11 +81,13 @@ export async function saveProjectAction(formData: FormData): Promise<void> {
     attachments = [...attachments, uploaded];
   }
 
-  await saveProject({
-    ...(fields as ProjectInput),
-    id,
-    attachments,
-  });
+  if (files.length > 0) {
+    await saveProject({
+      ...(fields as ProjectInput),
+      id: savedProject.id,
+      attachments,
+    });
+  }
 
   revalidatePath("/dashboard");
   revalidatePath("/projects");
