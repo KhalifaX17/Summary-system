@@ -1,10 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { saveProjectAction } from "@/lib/actions";
-import { showToast } from "@/components/Toast";
-import { Attachment, MISSION_OPTIONS, Project, STATUS_OPTIONS } from "@/lib/types";
+import { MISSION_OPTIONS, Project, STATUS_OPTIONS } from "@/lib/types";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -24,14 +22,9 @@ const field =
 const label = "block text-[12.5px] text-muted mb-1.5";
 
 export default function ProjectForm({ project }: { project?: Project }) {
-  const [attachments, setAttachments] = useState<Attachment[]>(project?.attachments ?? []);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   return (
     <form action={saveProjectAction} className="space-y-4">
       {project && <input type="hidden" name="id" value={project.id} />}
-      <input type="hidden" name="existingAttachments" value={JSON.stringify(attachments)} />
 
       <Section title="ข้อมูลพื้นฐาน">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -189,62 +182,6 @@ export default function ProjectForm({ project }: { project?: Project }) {
             <textarea name="recommendations" defaultValue={project?.recommendations} className={`${field} min-h-16`} />
           </div>
         </div>
-      </Section>
-
-      <Section title="ไฟล์แนบ / หลักฐาน">
-        <div
-          onClick={() => fileInputRef.current?.click()}
-          className="border-[1.5px] border-dashed border-border rounded-[10px] p-4 text-center text-[12.5px] text-muted bg-paper cursor-pointer hover:border-primary transition-all active:scale-[0.99]"
-        >
-          คลิกเพื่อเลือกไฟล์ หรือรูปภาพหลักฐานการดำเนินงาน (อัปโหลดขึ้น Google Drive เมื่อกดบันทึก)
-          <input
-            ref={fileInputRef}
-            type="file"
-            name="newFiles"
-            multiple
-            className="hidden"
-            onChange={(e) => {
-              const files = Array.from(e.target.files ?? []);
-              const n = files.length;
-              setSelectedFiles(files);
-              if (n > 0) showToast(`เลือกไฟล์แล้ว ${n} รายการ — จะอัปโหลดตอนกดบันทึกโครงการ`);
-            }}
-          />
-        </div>
-        {selectedFiles.length > 0 && (
-          <div className="mt-3 space-y-1.5">
-            <div className="text-[12px] text-muted">ไฟล์ที่เลือกใหม่</div>
-            {selectedFiles.map((file) => (
-              <div
-                key={`${file.name}-${file.lastModified}`}
-                className="text-[12px] text-ink bg-paper border border-border rounded-[8px] px-3 py-2"
-              >
-                {file.name}
-              </div>
-            ))}
-          </div>
-        )}
-        {attachments.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-3">
-            {attachments.map((a, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-1.5 bg-[#eef2fc] text-primary-dark px-2.5 py-1.5 rounded-full text-[12px]"
-              >
-                <a href={a.url} target="_blank" rel="noreferrer" className="hover:underline">
-                  {a.name}
-                </a>
-                <button
-                  type="button"
-                  onClick={() => setAttachments((prev) => prev.filter((_, idx) => idx !== i))}
-                  className="text-red font-bold transition-transform active:scale-[0.85]"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
       </Section>
 
       <div className="flex justify-end gap-2.5">

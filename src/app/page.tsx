@@ -32,8 +32,8 @@ export default function HomePage() {
             className="animate-fade-up text-[15px] text-muted leading-relaxed mb-8 max-w-lg"
             style={{ animationDelay: "0.2s" }}
           >
-            บันทึก ติดตาม และสรุปโครงการของสาขาตั้งแต่ข้อมูลพื้นฐาน งบประมาณ ผลการดำเนินงาน
-            ไปจนถึงไฟล์แนบหลักฐาน — ข้อมูลทั้งหมดเก็บอยู่ใน Google Sheet ของสาขา พร้อมส่งออกรายงานได้ทันทีเมื่อจำเป็น
+            บันทึก ติดตาม และสรุปโครงการของสาขาตั้งแต่ข้อมูลพื้นฐาน งบประมาณ และผลการดำเนินงาน
+            — ข้อมูลทั้งหมดเก็บอยู่ใน Google Sheet ของสาขา พร้อมส่งออกรายงานได้ทันทีเมื่อจำเป็น
           </p>
           <div className="animate-fade-up flex flex-wrap gap-3" style={{ animationDelay: "0.28s" }}>
             <Link

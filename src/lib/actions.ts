@@ -3,9 +3,8 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { saveProject, deleteProject, getProject } from "./sheets";
-import { uploadAttachment } from "./drive";
 import { canEditProject } from "./projectRules";
-import { Attachment, ProjectInput } from "./types";
+import { ProjectInput } from "./types";
 
 const NUMBER_FIELDS = new Set(["budgetAllocated", "budgetUsed", "participantActual"]);
 
@@ -56,38 +55,10 @@ export async function saveProjectAction(formData: FormData): Promise<void> {
 
   const fields = readTextFields(formData);
 
-  const existingAttachmentsRaw = (formData.get("existingAttachments") as string) || "[]";
-  let attachments: Attachment[] = JSON.parse(existingAttachmentsRaw);
-
-  const files = (formData.getAll("newFiles") as File[]).filter(
-    (file) => file && file.size > 0
-  );
-
-  // Save first so new projects have an ID before files are placed in Drive.
-  const savedProject = await saveProject({
+  await saveProject({
     ...(fields as ProjectInput),
     id,
-    attachments,
   });
-
-  for (const file of files) {
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const uploaded = await uploadAttachment(
-      savedProject.id,
-      file.name,
-      file.type || "application/octet-stream",
-      buffer
-    );
-    attachments = [...attachments, uploaded];
-  }
-
-  if (files.length > 0) {
-    await saveProject({
-      ...(fields as ProjectInput),
-      id: savedProject.id,
-      attachments,
-    });
-  }
 
   revalidatePath("/dashboard");
   revalidatePath("/projects");

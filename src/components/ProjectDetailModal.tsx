@@ -65,24 +65,6 @@ export default function ProjectDetailModal({
         <Row label="ปัญหา/อุปสรรค" value={project.problems} />
         <Row label="ข้อเสนอแนะ" value={project.recommendations} />
 
-        {project.attachments.length > 0 && (
-          <div>
-            <div className="text-[11.5px] text-muted mb-1.5">ไฟล์แนบ</div>
-            <div className="flex flex-wrap gap-1.5">
-              {project.attachments.map((a) => (
-                <a
-                  key={a.url}
-                  href={a.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[12px] px-2.5 py-1 bg-paper rounded-full text-primary hover:underline"
-                >
-                  {a.name}
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       <div className="flex items-center justify-between mt-6 pt-5 border-t border-border">
