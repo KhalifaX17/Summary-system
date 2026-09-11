@@ -25,6 +25,7 @@ const label = "block text-[12.5px] text-muted mb-1.5";
 
 export default function ProjectForm({ project }: { project?: Project }) {
   const [attachments, setAttachments] = useState<Attachment[]>(project?.attachments ?? []);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -203,11 +204,26 @@ export default function ProjectForm({ project }: { project?: Project }) {
             multiple
             className="hidden"
             onChange={(e) => {
-              const n = e.target.files?.length ?? 0;
+              const files = Array.from(e.target.files ?? []);
+              const n = files.length;
+              setSelectedFiles(files);
               if (n > 0) showToast(`เลือกไฟล์แล้ว ${n} รายการ — จะอัปโหลดตอนกดบันทึกโครงการ`);
             }}
           />
         </div>
+        {selectedFiles.length > 0 && (
+          <div className="mt-3 space-y-1.5">
+            <div className="text-[12px] text-muted">ไฟล์ที่เลือกใหม่</div>
+            {selectedFiles.map((file) => (
+              <div
+                key={`${file.name}-${file.lastModified}`}
+                className="text-[12px] text-ink bg-paper border border-border rounded-[8px] px-3 py-2"
+              >
+                {file.name}
+              </div>
+            ))}
+          </div>
+        )}
         {attachments.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-3">
             {attachments.map((a, i) => (
