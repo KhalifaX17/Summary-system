@@ -78,6 +78,9 @@ export async function GET(request: Request) {
   const newPage = () => {
     page = pdfDoc.addPage([PAGE_W, PAGE_H]);
     y = PAGE_H - MARGIN;
+    page.drawRectangle({ x: 0, y: PAGE_H - 8, width: PAGE_W, height: 8, color: navy });
+    page.drawText("ระบบสรุปโครงการ", { x: MARGIN, y: PAGE_H - 28, size: 9, font: bold, color: muted });
+    y = PAGE_H - MARGIN - 16;
   };
 
   const ensureSpace = (needed: number) => {
@@ -85,6 +88,7 @@ export async function GET(request: Request) {
   };
 
   const title = type === "summary" ? "รายงานสรุปภาพรวมโครงการ" : "รายงานสรุปโครงการ";
+  page.drawRectangle({ x: 0, y: PAGE_H - 8, width: PAGE_W, height: 8, color: navy });
   page.drawText(title, { x: MARGIN, y, size: 20, font: bold, color: navy });
   y -= 24;
   page.drawText(
@@ -99,8 +103,17 @@ export async function GET(request: Request) {
     const stats = computeDashboardStats(projects);
 
     const drawStatBox = (x: number, label: string, value: string) => {
-      page.drawText(label, { x, y, size: 9.5, font: regular, color: muted });
-      page.drawText(value, { x, y: y - 18, size: 16, font: bold, color: navy });
+      page.drawRectangle({
+        x,
+        y: y - 38,
+        width: boxW - 8,
+        height: 52,
+        color: rgb(0.96, 0.97, 0.99),
+        borderColor: line,
+        borderWidth: 0.7,
+      });
+      page.drawText(label, { x: x + 10, y: y + 1, size: 9.5, font: regular, color: muted });
+      page.drawText(value, { x: x + 10, y: y - 20, size: 16, font: bold, color: navy });
     };
     const boxW = CONTENT_W / 4;
     drawStatBox(MARGIN, "จำนวนโครงการ", `${stats.total}`);
@@ -149,6 +162,13 @@ export async function GET(request: Request) {
 
       const titleLines = wrapText(`${p.id}  ${p.projectName}`, bold, 12.5, CONTENT_W);
       ensureSpace(16 * titleLines.length + 10);
+      page.drawRectangle({
+        x: MARGIN - 8,
+        y: y - 22,
+        width: CONTENT_W + 16,
+        height: 28,
+        color: rgb(0.96, 0.97, 0.99),
+      });
       titleLines.forEach((l, i) => {
         page.drawText(l, { x: MARGIN, y: y - i * 16, size: 12.5, font: bold, color: navy });
       });
