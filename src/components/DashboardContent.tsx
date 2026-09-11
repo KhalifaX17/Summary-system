@@ -54,21 +54,28 @@ export default function DashboardContent({ projects }: { projects: Project[] }) 
       <Topbar title="แดชบอร์ดภาพรวม" subtitle="สรุปภาพรวมโครงการทั้งหมดของสาขา" />
 
       <div className="px-6 py-6 md:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-          <p className="text-[14.5px] text-muted">
-            ตอนนี้มี <b className="text-ink font-semibold">{active} โครงการ</b> กำลังดำเนินการ จากทั้งหมด{" "}
-            <b className="text-ink font-semibold">{stats.total} โครงการ</b> · ใช้งบประมาณไปแล้ว{" "}
-            <b className="text-ink font-semibold">{budgetPct}%</b> ของที่ได้รับจัดสรร
-          </p>
-
-          {fiscalYears.length > 0 && (
-            <div className="flex items-center gap-1 bg-surface border border-border rounded-full p-1">
-              <YearPill label="ทุกปี" active={year === "all"} onClick={() => setYear("all")} />
-              {fiscalYears.map((y) => (
-                <YearPill key={y} label={`ปีงบ ${y}`} active={year === y} onClick={() => setYear(y)} />
-              ))}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-navy-deep via-navy to-primary px-5 py-5 md:px-7 md:py-6 mb-6 text-white shadow-lg shadow-navy/15">
+          <div className="absolute -right-12 -top-16 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
+          <div className="absolute right-20 -bottom-20 h-36 w-36 rounded-full bg-gold/25 blur-2xl" />
+          <div className="relative flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div className="text-[11px] uppercase tracking-[0.18em] text-white/60 mb-1">ภาพรวมล่าสุด</div>
+              <p className="text-[14.5px] text-white/85">
+                ตอนนี้มี <b className="text-white font-semibold">{active} โครงการ</b> กำลังดำเนินการ จากทั้งหมด{" "}
+                <b className="text-white font-semibold">{stats.total} โครงการ</b> · ใช้งบประมาณไปแล้ว{" "}
+                <b className="text-white font-semibold">{budgetPct}%</b> ของที่ได้รับจัดสรร
+              </p>
             </div>
-          )}
+
+            {fiscalYears.length > 0 && (
+              <div className="flex items-center gap-1 bg-white/10 border border-white/15 rounded-full p-1 backdrop-blur-sm">
+                <YearPill label="ทุกปี" active={year === "all"} onClick={() => setYear("all")} />
+                {fiscalYears.map((y) => (
+                  <YearPill key={y} label={`ปีงบ ${y}`} active={year === y} onClick={() => setYear(y)} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -178,7 +185,7 @@ function YearPill({ label, active, onClick }: { label: string; active: boolean; 
       type="button"
       onClick={onClick}
       className={`px-3 py-1.5 rounded-full text-[12.5px] font-medium transition-all active:scale-[0.94] ${
-        active ? "bg-navy text-white" : "text-muted hover:bg-paper"
+        active ? "bg-white text-navy shadow-sm" : "text-white/75 hover:bg-white/10 hover:text-white"
       }`}
     >
       {label}

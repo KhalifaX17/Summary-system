@@ -22,7 +22,8 @@ export default function StatCard({
   };
 
   return (
-    <div className="group bg-surface border border-border rounded-2xl p-4.5 shadow-sm flex items-start justify-between gap-3 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+    <div className="group relative overflow-hidden bg-surface border border-border rounded-2xl p-4.5 shadow-sm flex items-start justify-between gap-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-lg hover:shadow-navy/5">
+      <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-primary/70 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
       <div className="min-w-0">
         <div className="text-[12.5px] text-muted mb-2">{label}</div>
         <div className="text-[24px] font-display font-semibold text-ink leading-none tabular-nums">
