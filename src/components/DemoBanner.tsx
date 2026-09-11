@@ -1,7 +1,7 @@
-import { isGoogleConfigured } from "@/lib/config";
+import { isGoogleSheetsConfigured } from "@/lib/config";
 
 export default function DemoBanner() {
-  if (isGoogleConfigured()) return null;
+  if (isGoogleSheetsConfigured()) return null;
 
   return (
     <div className="bg-gold/15 border-b border-gold/30 text-[12.5px] text-[#7a5620] px-6 md:px-8 py-2 flex items-center gap-2">

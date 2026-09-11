@@ -1,6 +1,6 @@
 import { Readable } from "stream";
 import { getDriveClient, getDriveFolderId } from "./googleClients";
-import { isGoogleConfigured } from "./config";
+import { isGoogleDriveConfigured } from "./config";
 import { mockUploadAttachment } from "./mockData";
 import { Attachment } from "./types";
 
@@ -42,7 +42,7 @@ export async function uploadAttachment(
   mimeType: string,
   buffer: Buffer
 ): Promise<Attachment> {
-  if (!isGoogleConfigured()) return mockUploadAttachment(fileName);
+  if (!isGoogleDriveConfigured()) return mockUploadAttachment(fileName);
 
   const drive = getDriveClient();
   const folderId = await getOrCreateProjectFolder(projectId || "unassigned");

@@ -1,5 +1,5 @@
 import { getSheetsClient, getSpreadsheetId } from "./googleClients";
-import { isGoogleConfigured } from "./config";
+import { isGoogleSheetsConfigured } from "./config";
 import {
   mockDeleteProject,
   mockGetProject,
@@ -34,6 +34,18 @@ async function ensureSheet(): Promise<number> {
     );
 
     if (existing?.properties?.sheetId != null) {
+      const header = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: `${SHEET_NAME}!A1:AB1`,
+      });
+      if (!header.data.values?.[0]?.length) {
+        await sheets.spreadsheets.values.update({
+          spreadsheetId,
+          range: `${SHEET_NAME}!A1`,
+          valueInputOption: "RAW",
+          requestBody: { values: [SHEET_COLUMNS as string[]] },
+        });
+      }
       return existing.properties.sheetId;
     }
 
@@ -53,7 +65,10 @@ async function ensureSheet(): Promise<number> {
       requestBody: { values: [SHEET_COLUMNS as string[]] },
     });
 
-    return newSheetId!;
+    if (newSheetId == null) {
+      throw new Error("สร้างชีต Projects ไม่สำเร็จ");
+    }
+    return newSheetId;
   })().catch((err) => {
     sheetReadyPromise = null;
     throw err;
@@ -116,7 +131,7 @@ async function readAllRows(): Promise<string[][]> {
 }
 
 export async function getProjects(): Promise<Project[]> {
-  if (!isGoogleConfigured()) return mockGetProjects();
+  if (!isGoogleSheetsConfigured()) return mockGetProjects();
   const rows = await readAllRows();
   return rows
     .filter((r) => r[0])
@@ -125,7 +140,7 @@ export async function getProjects(): Promise<Project[]> {
 }
 
 export async function getProject(id: string): Promise<Project | null> {
-  if (!isGoogleConfigured()) return mockGetProject(id);
+  if (!isGoogleSheetsConfigured()) return mockGetProject(id);
   const rows = await readAllRows();
   const row = rows.find((r) => r[0] === id);
   return row ? rowToProject(row) : null;
@@ -148,7 +163,7 @@ export async function saveProject(
     throw new Error("กรุณาระบุชื่อโครงการ");
   }
 
-  if (!isGoogleConfigured()) return mockSaveProject(input);
+  if (!isGoogleSheetsConfigured()) return mockSaveProject(input);
 
   await ensureSheet();
   const sheets = getSheetsClient();
@@ -186,7 +201,7 @@ export async function saveProject(
 }
 
 export async function deleteProject(id: string): Promise<boolean> {
-  if (!isGoogleConfigured()) return mockDeleteProject(id);
+  if (!isGoogleSheetsConfigured()) return mockDeleteProject(id);
 
   const sheetId = await ensureSheet();
   const sheets = getSheetsClient();
