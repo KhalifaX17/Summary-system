@@ -1,5 +1,9 @@
 import { google } from "googleapis";
 
+let authClient: InstanceType<typeof google.auth.JWT> | undefined;
+let sheetsClient: ReturnType<typeof google.sheets> | undefined;
+let driveClient: ReturnType<typeof google.drive> | undefined;
+
 function getCredentials() {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const rawKey = process.env.GOOGLE_PRIVATE_KEY;
@@ -12,8 +16,9 @@ function getCredentials() {
 }
 
 function getAuth() {
+  if (authClient) return authClient;
   const { email, privateKey } = getCredentials();
-  return new google.auth.JWT({
+  authClient = new google.auth.JWT({
     email,
     key: privateKey,
     scopes: [
@@ -21,14 +26,17 @@ function getAuth() {
       "https://www.googleapis.com/auth/drive",
     ],
   });
+  return authClient;
 }
 
 export function getSheetsClient() {
-  return google.sheets({ version: "v4", auth: getAuth() });
+  sheetsClient ??= google.sheets({ version: "v4", auth: getAuth() });
+  return sheetsClient;
 }
 
 export function getDriveClient() {
-  return google.drive({ version: "v3", auth: getAuth() });
+  driveClient ??= google.drive({ version: "v3", auth: getAuth() });
+  return driveClient;
 }
 
 export function getSpreadsheetId() {

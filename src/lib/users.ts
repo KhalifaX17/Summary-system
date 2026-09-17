@@ -3,6 +3,7 @@ import { getSheetsClient, getSpreadsheetId } from "./googleClients";
 
 const SHEET_NAME = "Users";
 const COLUMNS = ["username", "passwordHash", "displayName", "updatedAt", "avatar"];
+let usersSheetReady: Promise<void> | undefined;
 
 export interface UserProfile {
   username: string;
@@ -49,8 +50,16 @@ async function ensureUsersSheet() {
   });
 }
 
+function ensureUsersSheetOnce() {
+  usersSheetReady ??= ensureUsersSheet().catch((error) => {
+    usersSheetReady = undefined;
+    throw error;
+  });
+  return usersSheetReady;
+}
+
 async function readUsers(): Promise<string[][]> {
-  await ensureUsersSheet();
+  await ensureUsersSheetOnce();
   const response = await getSheetsClient().spreadsheets.values.get({
     spreadsheetId: getSpreadsheetId(),
     range: `${SHEET_NAME}!A2:E`,
@@ -66,7 +75,7 @@ async function bootstrapUser(rows: string[][]): Promise<string[][]> {
   const row = [username, hashPassword(password), username, new Date().toISOString(), ""];
   await getSheetsClient().spreadsheets.values.append({
     spreadsheetId: getSpreadsheetId(),
-    range: `${SHEET_NAME}!A:D`,
+    range: `${SHEET_NAME}!A:E`,
     valueInputOption: "RAW",
     insertDataOption: "INSERT_ROWS",
     requestBody: { values: [row] },
