@@ -17,6 +17,16 @@
   --color-red: #e0523f;
 }
 
+html.dark {
+  --color-paper: #111827;
+  --color-surface: #1b2538;
+  --color-border: #334155;
+  --color-ink: #edf2ff;
+  --color-muted: #aab6cc;
+  --color-navy: #e8eefc;
+  --color-gold-soft: #5b472c;
+}
+
 @theme inline {
   --color-navy: var(--color-navy);
   --color-navy-deep: var(--color-navy-deep);
@@ -40,6 +50,29 @@ body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sarabun), sans-serif;
+}
+
+html.dark body {
+  background: var(--color-paper);
+}
+
+html.dark .bg-white,
+html.dark .bg-surface {
+  background-color: var(--color-surface);
+}
+
+html.dark input,
+html.dark select {
+  color: var(--color-ink);
+  background-color: #202c42;
+}
+
+html.dark input::placeholder {
+  color: #8492aa;
+}
+
+html.dark [class*="bg-[#eef3ff]"] {
+  background: #111827;
 }
 
 h1, h2, h3, .font-display {

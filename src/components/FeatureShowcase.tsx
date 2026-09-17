@@ -64,20 +64,20 @@ export default function FeatureShowcase() {
 
   return (
     <>
-      <section className="relative px-6 pb-16 md:px-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <section className="relative mx-auto -mt-1 grid max-w-[1180px] grid-cols-1 gap-4 px-6 pb-16 sm:grid-cols-2 sm:px-10 md:px-12 lg:grid-cols-4">
         {FEATURES.map((f, i) => (
           <button
             key={f.title}
             type="button"
             onClick={() => setOpenIndex(i)}
-            className="animate-fade-up group text-left bg-surface border border-border rounded-2xl p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-gold/40 cursor-pointer active:scale-[0.98] active:translate-y-0"
+            className="animate-fade-up group cursor-pointer rounded-2xl border border-border bg-surface p-5 text-left shadow-[0_8px_24px_rgba(28,41,71,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[0_14px_30px_rgba(28,41,71,0.12)] active:translate-y-0 active:scale-[0.98]"
             style={{ animationDelay: `${0.1 + i * 0.08}s` }}
           >
-            <div className="w-9 h-9 rounded-[10px] bg-primary/10 text-primary flex items-center justify-center mb-3.5 transition-colors duration-300 group-hover:bg-gold group-hover:text-white">
+            <div className="mb-3.5 flex h-9 w-9 items-center justify-center rounded-[10px] bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
               {f.icon}
             </div>
-            <h3 className="font-display font-semibold text-[14.5px] mb-1.5">{f.title}</h3>
-            <p className="text-[12.5px] text-muted leading-relaxed">{f.desc}</p>
+            <h3 className="mb-1.5 font-display text-[14.5px] font-semibold">{f.title}</h3>
+            <p className="text-[12.5px] leading-relaxed text-muted">{f.desc}</p>
             <span className="inline-block mt-3 text-[12px] font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
               ดูเพิ่มเติม →
             </span>

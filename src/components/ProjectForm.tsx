@@ -18,12 +18,12 @@ function SubmitButton() {
 }
 
 const field =
-  "w-full px-3 py-2.5 rounded-[8px] border border-border bg-surface text-[13.5px] focus:outline-none focus:border-primary";
-const label = "block text-[12.5px] text-muted mb-1.5";
+  "w-full px-4 py-3 rounded-[10px] border border-border bg-surface text-[14px] focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-muted/60";
+const label = "block text-[13.5px] font-medium text-ink mb-2";
 
 export default function ProjectForm({ project }: { project?: Project }) {
   return (
-    <form action={saveProjectAction} className="space-y-4">
+    <form action={saveProjectAction} className="space-y-5">
       {project && <input type="hidden" name="id" value={project.id} />}
 
       <Section title="ข้อมูลพื้นฐาน">
@@ -68,15 +68,6 @@ export default function ProjectForm({ project }: { project?: Project }) {
                 </option>
               ))}
             </select>
-          </div>
-          <div className="md:col-span-2">
-            <label className={label}>ตัวบ่งชี้ QA ที่เกี่ยวข้อง (ถ้ามี)</label>
-            <input
-              name="qaIndicator"
-              defaultValue={project?.qaIndicator}
-              className={field}
-              placeholder="เช่น องค์ประกอบที่ 3 ตัวบ่งชี้ 3.2"
-            />
           </div>
           <div className="md:col-span-2">
             <label className={label}>หลักการและเหตุผล</label>
@@ -184,10 +175,10 @@ export default function ProjectForm({ project }: { project?: Project }) {
         </div>
       </Section>
 
-      <div className="flex justify-end gap-2.5">
+      <div className="sticky bottom-3 z-10 flex justify-end gap-2.5 rounded-2xl border border-border bg-surface/95 p-3 shadow-lg backdrop-blur-sm">
         <a
           href="/projects"
-          className="px-4 py-2.5 rounded-[9px] border border-border text-[13.5px] hover:bg-paper transition-all active:scale-[0.97]"
+          className="rounded-[10px] border border-border px-5 py-3 text-[14px] hover:bg-paper transition-all active:scale-[0.97]"
         >
           ยกเลิก
         </a>
@@ -199,8 +190,11 @@ export default function ProjectForm({ project }: { project?: Project }) {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-surface border border-border rounded-2xl shadow-sm p-5 md:p-6">
-      <h3 className="font-display font-semibold text-[14.5px] text-primary-dark mb-4">{title}</h3>
+    <div className="bg-surface border border-border rounded-2xl shadow-sm p-5 md:p-7">
+      <div className="mb-5 flex items-center gap-3 border-b border-border pb-4">
+        <span className="h-2 w-2 rounded-full bg-primary" />
+        <h3 className="font-display font-semibold text-[18px] text-ink">{title}</h3>
+      </div>
       {children}
     </div>
   );

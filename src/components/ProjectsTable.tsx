@@ -54,6 +54,15 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
     });
   }, [projects, query, fiscalYear, mission, status]);
 
+  const statusTabs = [
+    { label: "ทั้งหมด", value: "", count: projects.length },
+    ...STATUS_OPTIONS.map((value) => ({
+      label: value,
+      value,
+      count: projects.filter((p) => p.status === value).length,
+    })),
+  ];
+
   function confirmDelete() {
     if (!deleteTarget) return;
     const target = deleteTarget;
@@ -65,16 +74,56 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
   }
 
   return (
-    <div>
-      <div className="flex flex-wrap items-center gap-3 mb-4">
+    <div className="mx-auto max-w-[1400px]">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 className="font-display text-[21px] font-semibold text-ink">ข้อมูลโครงการ</h2>
+          <p className="mt-1 text-[14px] text-muted">ดูและจัดการข้อมูลโครงการจาก Google Sheet</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <ExportDialog fiscalYears={fiscalYears} initialYear={fiscalYear || undefined} />
+          <Link
+            href="/projects/new"
+            className="inline-flex items-center gap-2 rounded-[9px] bg-primary px-5 py-3 text-[14px] font-medium text-white shadow-sm transition-all hover:bg-primary-dark hover:shadow-md active:scale-[0.97]"
+          >
+            <IconPlus className="h-4 w-4" />
+            เพิ่มโครงการ
+          </Link>
+        </div>
+      </div>
+
+      <div className="mb-4 flex gap-1 overflow-x-auto border-b border-border">
+        {statusTabs.map((tab) => (
+          <button
+            key={tab.value || "all"}
+            type="button"
+            onClick={() => setStatus(tab.value)}
+            className={`whitespace-nowrap border-b-2 px-3 py-3 text-[14px] transition-colors ${
+              status === tab.value
+                ? "border-primary font-semibold text-primary"
+                : "border-transparent text-muted hover:text-ink"
+            }`}
+          >
+            {tab.label}
+            <span className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] ${
+              status === tab.value ? "bg-primary/10 text-primary" : "bg-paper text-muted"
+            }`}>
+              {tab.count}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <div className="mb-4 rounded-xl border border-border bg-surface p-3 shadow-sm">
+        <div className="flex flex-wrap items-center gap-2.5">
         <input
-          className="flex-1 min-w-[220px] px-3.5 py-2.5 rounded-[9px] border border-border bg-surface text-[13.5px]"
+          className="min-w-[260px] flex-1 rounded-[8px] border border-border bg-paper/40 px-4 py-3 text-[14px] outline-none transition-colors placeholder:text-muted/70 focus:border-primary focus:bg-surface"
           placeholder="ค้นหาชื่อโครงการ, ผู้รับผิดชอบ, หน่วยงาน..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
         <select
-          className="px-3 py-2.5 rounded-[9px] border border-border bg-surface text-[13px]"
+          className="rounded-[8px] border border-border bg-surface px-3.5 py-3 text-[14px] text-muted outline-none focus:border-primary"
           value={fiscalYear}
           onChange={(e) => setFiscalYear(e.target.value)}
         >
@@ -86,7 +135,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
           ))}
         </select>
         <select
-          className="px-3 py-2.5 rounded-[9px] border border-border bg-surface text-[13px]"
+          className="rounded-[8px] border border-border bg-surface px-3.5 py-3 text-[14px] text-muted outline-none focus:border-primary"
           value={mission}
           onChange={(e) => setMission(e.target.value)}
         >
@@ -98,7 +147,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
           ))}
         </select>
         <select
-          className="px-3 py-2.5 rounded-[9px] border border-border bg-surface text-[13px]"
+          className="rounded-[8px] border border-border bg-surface px-3.5 py-3 text-[14px] text-muted outline-none focus:border-primary"
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
@@ -110,29 +159,35 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
           ))}
         </select>
 
-        <div className="flex items-center gap-2 ml-auto">
-          <ExportDialog fiscalYears={fiscalYears} initialYear={fiscalYear || undefined} />
-          <Link
-            href="/projects/new"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white text-[13px] font-medium px-4 py-2.5 rounded-[9px] transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-primary/25 active:scale-[0.97]"
+        {(query || fiscalYear || mission || status) && (
+          <button
+            type="button"
+            onClick={() => {
+              setQuery("");
+              setFiscalYear("");
+              setMission("");
+              setStatus("");
+            }}
+            className="ml-auto rounded-[8px] px-3 py-2.5 text-[14px] text-muted transition-colors hover:bg-paper hover:text-ink"
           >
-            <IconPlus className="w-4 h-4" />
-            เพิ่มโครงการ
-          </Link>
+            ล้างตัวกรอง
+          </button>
+        )}
         </div>
       </div>
 
-      <div className="bg-surface border border-border rounded-2xl shadow-sm overflow-x-auto">
-        <table className="w-full text-[13px] border-collapse">
+      <div className="overflow-x-auto rounded-xl border border-border bg-surface shadow-sm">
+        <table className="w-full min-w-[1000px] border-collapse text-[14px]">
           <thead>
-            <tr className="bg-paper text-muted text-[12px] font-semibold">
-              <th className="text-left px-3.5 py-3">รหัส</th>
-              <th className="text-left px-3.5 py-3">ชื่อโครงการ</th>
-              <th className="text-left px-3.5 py-3">ผู้รับผิดชอบ</th>
-              <th className="text-left px-3.5 py-3">ปีงบ</th>
-              <th className="text-left px-3.5 py-3">สถานะ</th>
-              <th className="text-left px-3.5 py-3">งบใช้ / ได้รับ</th>
-              <th className="px-3.5 py-3"></th>
+            <tr className="border-b border-border bg-paper/70 text-[13px] font-semibold uppercase tracking-wide text-muted">
+              <th className="px-4 py-3 text-left">วันที่บันทึก</th>
+              <th className="px-4 py-3 text-left">รหัสโครงการ</th>
+              <th className="px-4 py-3 text-left">ชื่อโครงการ</th>
+              <th className="px-4 py-3 text-left">ผู้รับผิดชอบ</th>
+              <th className="px-4 py-3 text-left">พันธกิจ</th>
+              <th className="px-4 py-3 text-left">งบประมาณ</th>
+              <th className="px-4 py-3 text-left">สถานะ</th>
+              <th className="px-4 py-3 text-right">จัดการ</th>
             </tr>
           </thead>
           <tbody>
@@ -142,19 +197,18 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                 <tr
                   key={p.id}
                   onClick={() => setSelected(p)}
-                  className="border-t border-border hover:bg-paper/60 cursor-pointer transition-colors active:bg-paper"
+                  className="cursor-pointer border-b border-border last:border-0 hover:bg-paper/60 active:bg-paper"
                 >
-                  <td className="px-3.5 py-3 whitespace-nowrap">{p.id}</td>
-                  <td className="px-3.5 py-3 max-w-[260px]">{p.projectName}</td>
-                  <td className="px-3.5 py-3 whitespace-nowrap">{p.owner || "-"}</td>
-                  <td className="px-3.5 py-3 whitespace-nowrap">{p.fiscalYear || "-"}</td>
-                  <td className="px-3.5 py-3">
+                  <td className="whitespace-nowrap px-4 py-4 text-muted">{p.createdAt ? new Date(p.createdAt).toLocaleDateString("th-TH") : "-"}</td>
+                  <td className="whitespace-nowrap px-4 py-4 font-medium text-primary">{p.id}</td>
+                  <td className="max-w-[280px] px-4 py-4 font-medium text-ink">{p.projectName}</td>
+                  <td className="whitespace-nowrap px-4 py-4">{p.owner || "-"}</td>
+                  <td className="max-w-[150px] px-4 py-4 text-muted">{p.mission || "-"}</td>
+                  <td className="whitespace-nowrap px-4 py-4">{p.budgetAllocated.toLocaleString("th-TH")} บาท</td>
+                  <td className="px-4 py-4">
                     <StatusBadge status={p.status} />
                   </td>
-                  <td className="px-3.5 py-3 whitespace-nowrap">
-                    {p.budgetUsed.toLocaleString("th-TH")} / {p.budgetAllocated.toLocaleString("th-TH")}
-                  </td>
-                  <td className="px-3.5 py-3 whitespace-nowrap text-right" onClick={(e) => e.stopPropagation()}>
+                  <td className="whitespace-nowrap px-4 py-4 text-right" onClick={(e) => e.stopPropagation()}>
                     {editable ? (
                       <Link
                         href={`/projects/${p.id}/edit`}

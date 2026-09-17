@@ -5,6 +5,7 @@ import Modal from "./Modal";
 import StatusBadge from "./StatusBadge";
 import { Project } from "@/lib/types";
 import { canEditProject } from "@/lib/projectRules";
+import { IconDownload, IconFileCsv, IconFileExcel, IconFilePdf } from "./icons";
 
 function fmt(n: number) {
   return (n || 0).toLocaleString("th-TH");
@@ -28,6 +29,11 @@ export default function ProjectDetailModal({
   onClose: () => void;
 }) {
   const editable = canEditProject(project.status);
+  const exportFormats = [
+    { path: "excel", label: "Excel", Icon: IconFileExcel, color: "text-green" },
+    { path: "pdf", label: "PDF", Icon: IconFilePdf, color: "text-red" },
+    { path: "csv", label: "CSV", Icon: IconFileCsv, color: "text-primary" },
+  ];
 
   return (
     <Modal onClose={onClose}>
@@ -78,13 +84,38 @@ export default function ProjectDetailModal({
         ) : (
           <span className="text-[12px] text-muted">โครงการนี้เสร็จสิ้นแล้ว ไม่สามารถแก้ไขได้</span>
         )}
-        <button
+        <div className="flex items-center gap-2">
+          <div className="group relative">
+            <button
+              type="button"
+              aria-label="ส่งออกโครงการนี้"
+              className="inline-flex items-center gap-1.5 rounded-[9px] border border-border px-3 py-2 text-[13px] text-muted transition-colors hover:border-primary/40 hover:bg-paper hover:text-primary"
+            >
+              <IconDownload className="h-4 w-4" />
+              ส่งออก
+            </button>
+            <div className="invisible absolute bottom-full right-0 z-10 mb-2 w-36 translate-y-1 rounded-xl border border-border bg-surface p-1.5 opacity-0 shadow-xl transition-all group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+              {exportFormats.map(({ path, label, Icon, color }) => (
+                <a
+                  key={path}
+                  href={`/api/export/${path}?id=${encodeURIComponent(project.id)}`}
+                  download
+                  className="flex items-center gap-2 rounded-lg px-2.5 py-2 text-[12.5px] text-ink hover:bg-paper"
+                >
+                  <Icon className={`h-4 w-4 ${color}`} />
+                  {label}
+                </a>
+              ))}
+            </div>
+          </div>
+          <button
           type="button"
           onClick={onClose}
           className="text-[13px] text-muted hover:text-ink px-3 py-2 transition-transform active:scale-95"
         >
           ปิด
         </button>
+        </div>
       </div>
     </Modal>
   );

@@ -3,33 +3,33 @@ import FeatureShowcase from "@/components/FeatureShowcase";
 
 export default function HomePage() {
   return (
-    <div>
-      <section className="relative overflow-hidden">
+    <div className="min-h-[calc(100vh-3.5rem)] overflow-hidden">
+      <section className="relative min-h-[430px] overflow-hidden bg-[radial-gradient(circle_at_88%_20%,rgba(196,166,123,0.24),transparent_28%),linear-gradient(120deg,#eaf1ff_0%,#f5f7fc_52%,#f7f8fb_100%)]">
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 -right-24 w-[420px] h-[420px] rounded-full bg-gold/20 blur-3xl animate-float-slow"
+          className="pointer-events-none absolute -top-32 -right-24 h-[420px] w-[420px] rounded-full bg-gold/15 blur-3xl animate-float-slow"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute top-40 -left-32 w-[360px] h-[360px] rounded-full bg-primary/10 blur-3xl animate-float-slow"
+          className="pointer-events-none absolute top-48 -left-32 h-[360px] w-[360px] rounded-full bg-primary/10 blur-3xl animate-float-slow"
           style={{ animationDelay: "-6s" }}
         />
 
-        <div className="relative px-6 py-16 md:px-12 md:py-24 max-w-3xl">
+        <div className="relative mx-auto max-w-[1180px] px-6 py-20 sm:px-10 md:px-12 md:py-24">
           <div
-            className="animate-fade-up inline-block text-[12px] font-display font-medium tracking-wide text-gold bg-gold/10 px-3 py-1 rounded-full mb-5"
+            className="animate-fade-up mb-5 inline-block rounded-full bg-gold/10 px-3 py-1 text-[11px] font-display font-medium tracking-wide text-gold"
             style={{ animationDelay: "0.05s" }}
           >
             สาขาวิชาเทคโนโลยีสารสนเทศ
           </div>
           <h1
-            className="animate-fade-up font-display font-semibold text-[40px] md:text-[52px] leading-none text-ink mb-5 tracking-tight"
+            className="animate-fade-up mb-5 max-w-[620px] font-display text-[38px] font-semibold leading-[1.08] tracking-tight text-ink sm:text-[46px] md:text-[54px]"
             style={{ animationDelay: "0.12s" }}
           >
             ระบบสรุปโครงการ
           </h1>
           <p
-            className="animate-fade-up text-[15px] text-muted leading-relaxed mb-8 max-w-lg"
+            className="animate-fade-up mb-8 max-w-[520px] text-[14px] leading-[1.7] text-muted sm:text-[15px]"
             style={{ animationDelay: "0.2s" }}
           >
             บันทึก ติดตาม และสรุปโครงการของสาขาตั้งแต่ข้อมูลพื้นฐาน งบประมาณ และผลการดำเนินงาน
@@ -37,16 +37,16 @@ export default function HomePage() {
           </p>
           <div className="animate-fade-up flex flex-wrap gap-3" style={{ animationDelay: "0.28s" }}>
             <Link
-              href="/dashboard"
-              className="bg-primary hover:bg-primary-dark text-white text-[14px] font-medium px-5 py-2.5 rounded-[10px] transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/25 active:scale-[0.97] active:translate-y-0"
+              href="/login"
+              className="rounded-[10px] bg-primary px-6 py-3 text-[14px] font-medium text-white shadow-sm shadow-primary/20 transition-all hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-lg hover:shadow-primary/25 active:translate-y-0 active:scale-[0.97]"
             >
-              ไปที่แดชบอร์ด
+              เข้าสู่ระบบ
             </Link>
             <Link
-              href="/projects/new"
-              className="bg-surface border border-border hover:border-gold/50 hover:bg-paper text-ink text-[14px] font-medium px-5 py-2.5 rounded-[10px] transition-all hover:-translate-y-0.5 active:scale-[0.97] active:translate-y-0"
+              href="/dashboard"
+              className="rounded-[10px] border border-border bg-surface px-6 py-3 text-[14px] font-medium text-ink shadow-sm transition-all hover:-translate-y-0.5 hover:border-gold/50 hover:bg-paper active:translate-y-0 active:scale-[0.97]"
             >
-              + เพิ่มโครงการใหม่
+              ดูแดชบอร์ด
             </Link>
           </div>
         </div>

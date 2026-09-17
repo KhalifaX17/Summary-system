@@ -43,9 +43,14 @@ function buildSummarySheet(workbook: ExcelJS.Workbook, projects: Project[], year
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const { year, type } = parseExportScope(searchParams);
+  const projectId = searchParams.get("id");
 
   const all = await getProjects();
-  const projects = year ? all.filter((p) => p.fiscalYear === year) : all;
+  const projects = projectId
+    ? all.filter((p) => p.id === projectId)
+    : year
+      ? all.filter((p) => p.fiscalYear === year)
+      : all;
 
   const workbook = new ExcelJS.Workbook();
 

@@ -10,8 +10,8 @@ export default async function ProjectsPage() {
 
   return (
     <div>
-      <Topbar title="รายการโครงการ" subtitle="ค้นหา แก้ไข หรือลบข้อมูลโครงการ" hideAdd />
-      <div className="px-6 py-6 md:px-8">
+      <Topbar title="รายการโครงการ" subtitle="จัดการข้อมูลโครงการทั้งหมดในระบบ" hideAdd />
+      <div className="px-4 py-7 sm:px-8 md:px-10">
         <Suspense fallback={null}>
           <ProjectsTable projects={projects} />
         </Suspense>
