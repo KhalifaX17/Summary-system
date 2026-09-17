@@ -19,11 +19,11 @@ export default function RecentActivity({ projects }: { projects: Project[] }) {
   const [selected, setSelected] = useState<Project | null>(null);
 
   return (
-    <div className="bg-surface border border-border rounded-2xl p-5 shadow-sm">
-      <h3 className="font-display font-semibold text-[15px] mb-4">กิจกรรมล่าสุด</h3>
+    <div className="bg-surface border border-border rounded-xl p-4 shadow-sm">
+      <h3 className="font-display font-semibold text-[14px] mb-3">กิจกรรมล่าสุด</h3>
 
       {projects.length === 0 ? (
-        <p className="text-[13px] text-muted py-2">ยังไม่มีความเคลื่อนไหว</p>
+        <p className="text-[12px] text-muted py-2">ยังไม่มีความเคลื่อนไหว</p>
       ) : (
         <div className="space-y-1">
           {projects.map((p) => (

@@ -10,14 +10,14 @@ export default function AttentionPanel({ items }: { items: AttentionItem[] }) {
   const [selected, setSelected] = useState<Project | null>(null);
 
   return (
-    <div className="bg-surface border border-border rounded-2xl p-5 shadow-sm">
+    <div className="bg-surface border border-border rounded-xl p-4 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
         <IconAlert className="text-gold" />
-        <h3 className="font-display font-semibold text-[15px]">ต้องติดตาม</h3>
+        <h3 className="font-display font-semibold text-[14px]">ต้องติดตาม</h3>
       </div>
 
       {items.length === 0 ? (
-        <p className="text-[13px] text-muted py-2">ไม่มีโครงการที่ต้องเฝ้าระวังตอนนี้</p>
+        <p className="text-[12px] text-muted py-2">ไม่มีโครงการที่ต้องเฝ้าระวังตอนนี้</p>
       ) : (
         <div className="space-y-1">
           {items.slice(0, 6).map((item, i) => (

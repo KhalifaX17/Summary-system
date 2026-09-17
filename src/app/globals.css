@@ -20,13 +20,16 @@
 }
 
 html.dark {
-  --color-paper: #111827;
-  --color-surface: #1b2538;
-  --color-border: #334155;
-  --color-ink: #edf2ff;
-  --color-muted: #aab6cc;
-  --color-navy: #e8eefc;
-  --color-gold-soft: #5b472c;
+  --color-paper: #182338;
+  --color-surface: #202d43;
+  --color-border: #3a4b66;
+  --color-ink: #f4f7ff;
+  --color-muted: #c0cbe0;
+  --color-navy: #243654;
+  --color-navy-deep: #16233b;
+  --color-primary: #4d82f2;
+  --color-primary-dark: #3c6fd6;
+  --color-gold-soft: #624f32;
 }
 
 @theme inline {
@@ -74,15 +77,15 @@ html.dark .bg-surface {
 html.dark input,
 html.dark select {
   color: var(--color-ink);
-  background-color: #202c42;
+  background-color: #263650;
 }
 
 html.dark input::placeholder {
-  color: #8492aa;
+  color: #9eabc1;
 }
 
 html.dark [class*="bg-[#eef3ff]"] {
-  background: #111827;
+  background: #182338;
 }
 
 h1, h2, h3, .font-display {
