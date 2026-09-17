@@ -155,7 +155,7 @@ export default function Navbar() {
               type="button"
               onClick={() => setOpen((value) => !value)}
               aria-label="เมนูโปรไฟล์"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-[#303030] bg-[#202020] text-sm font-medium text-white shadow-sm"
+              className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-border bg-primary text-sm font-medium text-white shadow-sm"
             >
               {profile?.avatar ? <img src={profile.avatar} alt="" className="h-full w-full rounded-full object-cover" /> : (profile?.displayName || "N").slice(0, 1).toUpperCase()}
             </button>

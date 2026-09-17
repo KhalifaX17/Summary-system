@@ -56,6 +56,14 @@ html.dark body {
   background: var(--color-paper);
 }
 
+html.dark {
+  color-scheme: dark;
+}
+
+html:not(.dark) {
+  color-scheme: light;
+}
+
 html.dark .bg-white,
 html.dark .bg-surface {
   background-color: var(--color-surface);
