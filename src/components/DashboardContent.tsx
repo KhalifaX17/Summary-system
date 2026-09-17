@@ -53,14 +53,14 @@ export default function DashboardContent({ projects }: { projects: Project[] }) 
     <div>
       <Topbar title="แดชบอร์ดภาพรวม" subtitle="สรุปภาพรวมโครงการทั้งหมดของสาขา" />
 
-      <div className="px-6 py-6 md:px-8">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-navy-deep via-navy to-primary px-5 py-5 md:px-7 md:py-6 mb-6 text-white shadow-lg shadow-navy/15">
+      <div className="px-5 py-4 md:px-7">
+        <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-navy-deep via-navy to-primary px-4 py-4 md:px-6 md:py-4 mb-4 text-white shadow-lg shadow-navy/15">
           <div className="absolute -right-12 -top-16 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
           <div className="absolute right-20 -bottom-20 h-36 w-36 rounded-full bg-gold/25 blur-2xl" />
           <div className="relative flex flex-wrap items-center justify-between gap-4">
             <div>
-              <div className="text-[11px] uppercase tracking-[0.18em] text-white/60 mb-1">ภาพรวมล่าสุด</div>
-              <p className="text-[14.5px] text-white/85">
+              <div className="text-[10px] uppercase tracking-[0.18em] text-white/60 mb-1">ภาพรวมล่าสุด</div>
+              <p className="text-[13px] text-white/85">
                 ตอนนี้มี <b className="text-white font-semibold">{active} โครงการ</b> กำลังดำเนินการ จากทั้งหมด{" "}
                 <b className="text-white font-semibold">{stats.total} โครงการ</b> · ใช้งบประมาณไปแล้ว{" "}
                 <b className="text-white font-semibold">{budgetPct}%</b> ของที่ได้รับจัดสรร
@@ -78,7 +78,7 @@ export default function DashboardContent({ projects }: { projects: Project[] }) 
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
           <StatCard label="จำนวนโครงการทั้งหมด" value={stats.total} icon={<IconFolder />} accent="primary" />
           <StatCard
             label="งบประมาณที่ได้รับ"
@@ -103,13 +103,13 @@ export default function DashboardContent({ projects }: { projects: Project[] }) 
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-4 mb-4">
-          <div className="bg-surface border border-border rounded-2xl p-5 shadow-sm">
-            <h3 className="font-display font-semibold text-[15px] mb-4">สถานะโครงการ</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-3 mb-3">
+          <div className="bg-surface border border-border rounded-xl p-4 shadow-sm">
+            <h3 className="font-display font-semibold text-[14px] mb-3">สถานะโครงการ</h3>
             {Object.entries(stats.byStatus).map(([status, count]) => (
-              <div key={status} className="flex items-center gap-2.5 mb-3">
-                <div className="w-[110px] text-[12.5px] text-muted shrink-0">{status}</div>
-                <div className="flex-1 h-2.5 bg-paper rounded-full overflow-hidden">
+              <div key={status} className="flex items-center gap-2 mb-2">
+                <div className="w-[100px] text-[11.5px] text-muted shrink-0">{status}</div>
+                <div className="flex-1 h-2 bg-paper rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full transition-all duration-500 ease-out"
                     style={{
@@ -118,25 +118,25 @@ export default function DashboardContent({ projects }: { projects: Project[] }) 
                     }}
                   />
                 </div>
-                <div className="w-6 text-right text-[12.5px] font-semibold tabular-nums">{count}</div>
+                <div className="w-6 text-right text-[11.5px] font-semibold tabular-nums">{count}</div>
               </div>
             ))}
           </div>
 
-          <div className="bg-surface border border-border rounded-2xl p-5 shadow-sm">
-            <h3 className="font-display font-semibold text-[15px] mb-4">การใช้จ่ายงบประมาณ</h3>
-            <div className="flex items-center gap-5">
+          <div className="bg-surface border border-border rounded-xl p-4 shadow-sm">
+            <h3 className="font-display font-semibold text-[14px] mb-3">การใช้จ่ายงบประมาณ</h3>
+            <div className="flex items-center gap-4">
               <div
-                className="relative w-[110px] h-[110px] rounded-full shrink-0 flex items-center justify-center transition-[background] duration-500"
+                className="relative w-[90px] h-[90px] rounded-full shrink-0 flex items-center justify-center transition-[background] duration-500"
                 style={{
                   background: `conic-gradient(var(--color-gold) ${budgetPct * 3.6}deg, var(--color-border) 0deg)`,
                 }}
               >
-                <div className="absolute w-[76px] h-[76px] bg-surface rounded-full flex items-center justify-center font-display font-semibold text-[16px] tabular-nums">
+                <div className="absolute w-[62px] h-[62px] bg-surface rounded-full flex items-center justify-center font-display font-semibold text-[14px] tabular-nums">
                   {budgetPct}%
                 </div>
               </div>
-              <div className="text-[12.5px] text-muted leading-8">
+              <div className="text-[11.5px] text-muted leading-7">
                 ได้รับ: <b className="text-ink">{stats.totalBudgetAllocated.toLocaleString("th-TH")}</b> บาท
                 <br />
                 ใช้ไป: <b className="text-ink">{stats.totalBudgetUsed.toLocaleString("th-TH")}</b> บาท
@@ -151,17 +151,17 @@ export default function DashboardContent({ projects }: { projects: Project[] }) 
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3">
           <AttentionPanel items={attention} />
           <RecentActivity projects={recent} />
         </div>
 
-        <div className="bg-surface border border-border rounded-2xl p-5 shadow-sm">
-          <h3 className="font-display font-semibold text-[15px] mb-4">โครงการแยกตามพันธกิจ</h3>
+        <div className="bg-surface border border-border rounded-xl p-4 shadow-sm">
+          <h3 className="font-display font-semibold text-[14px] mb-3">โครงการแยกตามพันธกิจ</h3>
           {Object.entries(stats.byMission).map(([mission, count]) => (
-            <div key={mission} className="flex items-center gap-2.5 mb-3">
-              <div className="w-[170px] text-[12.5px] text-muted shrink-0">{mission}</div>
-              <div className="flex-1 h-2.5 bg-paper rounded-full overflow-hidden">
+            <div key={mission} className="flex items-center gap-2 mb-2">
+              <div className="w-[160px] text-[11.5px] text-muted shrink-0">{mission}</div>
+              <div className="flex-1 h-2 bg-paper rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all duration-500 ease-out"
                   style={{
