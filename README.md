@@ -85,12 +85,18 @@ npm run dev
 
 1. Push โค้ดโฟลเดอร์นี้ขึ้น GitHub repo (**อย่า commit ไฟล์ `.env.local`** — `.gitignore` กันไว้ให้แล้ว)
 2. ไปที่ https://vercel.com → **Add New → Project** → เลือก repo นี้
-3. ตอนตั้งค่า Environment Variables ให้ใส่ 5 ตัวแปรเดียวกับ `.env.local`:
+3. ตอนตั้งค่า Environment Variables ให้ใส่ตัวแปรเหล่านี้:
    - `GOOGLE_SERVICE_ACCOUNT_EMAIL`
    - `GOOGLE_PRIVATE_KEY` (แปะทั้งก้อนรวม `\n`)
    - `GOOGLE_SHEET_ID`
    - `GOOGLE_DRIVE_FOLDER_ID`
    - `GOOGLE_WORKSPACE_DOMAIN`
+   - `APP_LOGIN_EMAIL`
+   - `APP_LOGIN_PASSWORD`
+   - `APP_SESSION_SECRET`
+
+การเข้าสู่ระบบตรวจสอบจาก `APP_LOGIN_EMAIL` และ `APP_LOGIN_PASSWORD` โดยตรง จึงไม่ต้องรอ Google Sheets
+ส่วนข้อมูลชื่อที่แสดงและรูปโปรไฟล์ยังบันทึกในแท็บ `Users` ของ Google Sheets
 4. กด **Deploy** — เสร็จแล้วจะได้ลิงก์เว็บแบบ `https://ชื่อโปรเจกต์.vercel.app` ใช้งานได้ทันที ไม่ต้องล็อกอิน Google
 
 ## ฟิลด์ข้อมูลโครงการ

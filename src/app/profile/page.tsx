@@ -10,7 +10,6 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [username, setUsername] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [password, setPassword] = useState("");
   const [avatar, setAvatar] = useState("");
   const [removeAvatar, setRemoveAvatar] = useState(false);
   const [message, setMessage] = useState("");
@@ -39,7 +38,7 @@ export default function ProfilePage() {
     const response = await fetch("/api/auth/profile", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, displayName, password: password || undefined, avatar: removeAvatar ? "" : avatar || undefined }),
+      body: JSON.stringify({ username, displayName, avatar: removeAvatar ? "" : avatar || undefined }),
     });
     const data = await response.json().catch(() => ({ error: "เซิร์ฟเวอร์ไม่สามารถบันทึกข้อมูลได้" }));
     if (!response.ok) {
@@ -50,7 +49,6 @@ export default function ProfilePage() {
       setDisplayName(data.displayName);
       setAvatar(data.avatar || "");
       setRemoveAvatar(false);
-      setPassword("");
       setMessage("บันทึกข้อมูลส่วนตัวเรียบร้อยแล้ว");
       window.dispatchEvent(new CustomEvent("profile-updated", { detail: data }));
     }
@@ -123,14 +121,9 @@ export default function ProfilePage() {
               </label>
               <label className="block text-sm font-medium text-ink">
                 ชื่อผู้ใช้
-                <input value={username} onChange={(event) => setUsername(event.target.value)} required className="mt-2 w-full rounded-xl border border-border bg-surface px-4 py-3.5 text-[15px] outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/10" />
-                <span className="mt-1.5 block text-xs font-normal text-muted">ใช้ชื่อนี้สำหรับเข้าสู่ระบบครั้งถัดไป</span>
+                <input value={username} readOnly className="mt-2 w-full cursor-not-allowed rounded-xl border border-border bg-paper px-4 py-3.5 text-[15px] text-muted outline-none" />
+                <span className="mt-1.5 block text-xs font-normal text-muted">ชื่อผู้ใช้และรหัสผ่านจัดการจาก Environment Variables</span>
               </label>
-              <div className="border-t border-border pt-6">
-                <h3 className="font-display text-base font-semibold text-ink">เปลี่ยนรหัสผ่าน</h3>
-                <p className="mt-1 text-sm text-muted">กรอกเฉพาะเมื่อต้องการตั้งรหัสผ่านใหม่</p>
-                <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-4 w-full rounded-xl border border-border bg-surface px-4 py-3.5 text-[15px] outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/10" placeholder="รหัสผ่านใหม่" autoComplete="new-password" />
-              </div>
               {message && <p className="rounded-xl border border-green/20 bg-green/10 px-4 py-3 text-sm text-green">{message}</p>}
               {error && <p className="rounded-xl border border-red/20 bg-red/10 px-4 py-3 text-sm text-red">{error}</p>}
             </div>

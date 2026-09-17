@@ -26,6 +26,21 @@ function verifyPassword(password: string, stored: string): boolean {
   return actual.length === expectedBuffer.length && timingSafeEqual(actual, expectedBuffer);
 }
 
+function verifyEnvironmentPassword(password: string, expected: string): boolean {
+  const actualBuffer = Buffer.from(password);
+  const expectedBuffer = Buffer.from(expected);
+  return actualBuffer.length === expectedBuffer.length && timingSafeEqual(actualBuffer, expectedBuffer);
+}
+
+export function authenticateEnvironmentUser(username: string, password: string): UserProfile | null {
+  const configuredUsername = process.env.APP_LOGIN_EMAIL?.trim();
+  const configuredPassword = process.env.APP_LOGIN_PASSWORD;
+  if (!configuredUsername || !configuredPassword) return null;
+  if (username.trim().toLowerCase() !== configuredUsername.toLowerCase()) return null;
+  if (!verifyEnvironmentPassword(password, configuredPassword)) return null;
+  return { username: configuredUsername, displayName: configuredUsername };
+}
+
 async function ensureUsersSheet() {
   const sheets = getSheetsClient();
   const spreadsheetId = getSpreadsheetId();

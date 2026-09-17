@@ -16,6 +16,13 @@ export async function PATCH(request: Request) {
     const body = await request.json() as { username?: string; displayName?: string; password?: string; avatar?: string };
     if (!body.username?.trim()) return NextResponse.json({ error: "กรุณาระบุชื่อผู้ใช้" }, { status: 400 });
     if (!body.displayName?.trim()) return NextResponse.json({ error: "กรุณาระบุชื่อที่แสดง" }, { status: 400 });
+    const configuredUsername = process.env.APP_LOGIN_EMAIL?.trim();
+    if (configuredUsername && body.username.trim().toLowerCase() !== configuredUsername.toLowerCase()) {
+      return NextResponse.json({ error: "ชื่อผู้ใช้ถูกกำหนดจาก Environment Variables ไม่สามารถแก้จากหน้านี้ได้" }, { status: 400 });
+    }
+    if (body.password) {
+      return NextResponse.json({ error: "กรุณาเปลี่ยนรหัสผ่านจาก APP_LOGIN_PASSWORD ใน Vercel" }, { status: 400 });
+    }
     const profile = await updateUserProfile(username, {
       username: body.username,
       displayName: body.displayName,
