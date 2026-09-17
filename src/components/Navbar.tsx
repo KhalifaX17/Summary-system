@@ -113,14 +113,14 @@ export default function Navbar() {
   }
 
   return (
-    <header className="relative z-50 h-14 shrink-0 overflow-visible bg-surface/95 border-b border-border/80 flex items-center justify-end px-4 sm:px-6 md:px-10 backdrop-blur-sm">
+    <header className="relative z-50 h-16 shrink-0 overflow-visible bg-surface/95 border-b border-border/80 flex items-center justify-end px-4 sm:px-6 md:px-10 backdrop-blur-sm">
       <nav className="flex items-center gap-1">
         <button
           type="button"
           onClick={toggleTheme}
           aria-label={darkMode ? "เปลี่ยนเป็นโหมดสว่าง" : "เปลี่ยนเป็นโหมดมืด"}
           title={darkMode ? "โหมดสว่าง" : "โหมดมืด"}
-          className="mr-1 flex h-9 w-9 items-center justify-center rounded-lg text-lg text-muted transition-colors hover:bg-paper hover:text-ink"
+          className="mr-1 flex h-11 w-11 items-center justify-center rounded-lg text-xl text-muted transition-colors hover:bg-paper hover:text-ink"
         >
           {darkMode ? "☀" : "☾"}
         </button>
@@ -130,7 +130,7 @@ export default function Navbar() {
             <Link
               key={href}
               href={href}
-              className={`relative px-3 py-2 rounded-[8px] text-[12.5px] sm:text-[13px] transition-all active:scale-[0.96] ${
+              className={`relative px-4 py-2.5 rounded-[9px] text-[14px] sm:text-[15px] transition-all active:scale-[0.96] ${
                 active ? "text-white" : "text-muted hover:bg-paper hover:text-ink"
               }`}
             >

@@ -64,21 +64,21 @@ export default function FeatureShowcase() {
 
   return (
     <>
-      <section className="relative mx-auto -mt-1 grid max-w-[1180px] grid-cols-1 gap-4 px-6 pb-16 sm:grid-cols-2 sm:px-10 md:px-12 lg:grid-cols-4">
+      <section className="relative mx-auto -mt-1 grid max-w-[1280px] grid-cols-1 gap-5 px-6 pb-20 sm:grid-cols-2 sm:px-10 md:px-14 lg:grid-cols-4">
         {FEATURES.map((f, i) => (
           <button
             key={f.title}
             type="button"
             onClick={() => setOpenIndex(i)}
-            className="animate-fade-up group cursor-pointer rounded-2xl border border-border bg-surface p-5 text-left shadow-[0_8px_24px_rgba(28,41,71,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[0_14px_30px_rgba(28,41,71,0.12)] active:translate-y-0 active:scale-[0.98]"
+            className="animate-fade-up group cursor-pointer rounded-2xl border border-border bg-surface p-6 text-left shadow-[0_8px_24px_rgba(28,41,71,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[0_14px_30px_rgba(28,41,71,0.12)] active:translate-y-0 active:scale-[0.98]"
             style={{ animationDelay: `${0.1 + i * 0.08}s` }}
           >
-            <div className="mb-3.5 flex h-9 w-9 items-center justify-center rounded-[10px] bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
               {f.icon}
             </div>
-            <h3 className="mb-1.5 font-display text-[14.5px] font-semibold">{f.title}</h3>
-            <p className="text-[12.5px] leading-relaxed text-muted">{f.desc}</p>
-            <span className="inline-block mt-3 text-[12px] font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+            <h3 className="mb-2 font-display text-[17px] font-semibold">{f.title}</h3>
+            <p className="text-[15px] leading-relaxed text-muted">{f.desc}</p>
+            <span className="mt-4 inline-block text-[14px] font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
               ดูเพิ่มเติม →
             </span>
           </button>
