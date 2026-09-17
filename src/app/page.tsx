@@ -4,7 +4,7 @@ import FeatureShowcase from "@/components/FeatureShowcase";
 export default function HomePage() {
   return (
     <div className="min-h-[calc(100vh-3.5rem)] overflow-hidden">
-      <section className="relative min-h-[430px] overflow-hidden bg-[radial-gradient(circle_at_88%_20%,rgba(196,166,123,0.24),transparent_28%),linear-gradient(120deg,#eaf1ff_0%,#f5f7fc_52%,#f7f8fb_100%)]">
+      <section className="relative min-h-[430px] overflow-hidden bg-[radial-gradient(circle_at_88%_20%,rgba(196,166,123,0.24),transparent_28%),linear-gradient(120deg,#eaf1ff_0%,#f5f7fc_52%,#f7f8fb_100%)] dark:bg-[radial-gradient(circle_at_88%_20%,rgba(196,166,123,0.16),transparent_28%),linear-gradient(120deg,#18243b_0%,#111827_55%,#0f172a_100%)]">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-32 -right-24 h-[420px] w-[420px] rounded-full bg-gold/15 blur-3xl animate-float-slow"
@@ -29,7 +29,7 @@ export default function HomePage() {
             ระบบสรุปโครงการ
           </h1>
           <p
-            className="animate-fade-up mb-8 max-w-[520px] text-[14px] leading-[1.7] text-muted sm:text-[15px]"
+            className="animate-fade-up mb-8 max-w-[520px] text-[14px] leading-[1.7] text-muted dark:text-[#c8d2e5] sm:text-[15px]"
             style={{ animationDelay: "0.2s" }}
           >
             บันทึก ติดตาม และสรุปโครงการของสาขาตั้งแต่ข้อมูลพื้นฐาน งบประมาณ และผลการดำเนินงาน
