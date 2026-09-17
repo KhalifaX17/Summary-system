@@ -3,7 +3,10 @@ import { getSheetsClient, getSpreadsheetId } from "./googleClients";
 
 const SHEET_NAME = "Users";
 const COLUMNS = ["username", "passwordHash", "displayName", "updatedAt", "avatar"];
+const USERS_CACHE_TTL_MS = 5 * 60 * 1000;
 let usersSheetReady: Promise<void> | undefined;
+let usersCache: { rows: string[][]; expiresAt: number } | undefined;
+let usersRead: Promise<string[][]> | undefined;
 
 export interface UserProfile {
   username: string;
@@ -67,6 +70,23 @@ async function readUsers(): Promise<string[][]> {
   return response.data.values ?? [];
 }
 
+async function getUsers(): Promise<string[][]> {
+  if (usersCache && usersCache.expiresAt > Date.now()) return usersCache.rows;
+  usersRead ??= readUsers().then((rows) => {
+    usersCache = { rows, expiresAt: Date.now() + USERS_CACHE_TTL_MS };
+    usersRead = undefined;
+    return rows;
+  }).catch((error) => {
+    usersRead = undefined;
+    throw error;
+  });
+  return usersRead;
+}
+
+function invalidateUsersCache() {
+  usersCache = undefined;
+}
+
 async function bootstrapUser(rows: string[][]): Promise<string[][]> {
   if (rows.some((row) => row[0])) return rows;
   const username = process.env.APP_LOGIN_EMAIL?.trim();
@@ -80,18 +100,19 @@ async function bootstrapUser(rows: string[][]): Promise<string[][]> {
     insertDataOption: "INSERT_ROWS",
     requestBody: { values: [row] },
   });
+  usersCache = { rows: [row], expiresAt: Date.now() + USERS_CACHE_TTL_MS };
   return [row];
 }
 
 export async function authenticateUser(username: string, password: string): Promise<UserProfile | null> {
-  const rows = await bootstrapUser(await readUsers());
+  const rows = await bootstrapUser(await getUsers());
   const row = rows.find((candidate) => candidate[0]?.toLowerCase() === username.trim().toLowerCase());
   if (!row || !verifyPassword(password, row[1] ?? "")) return null;
   return { username: row[0], displayName: row[2] || row[0], avatar: row[4] || undefined };
 }
 
 export async function getUserProfile(username: string): Promise<UserProfile | null> {
-  const rows = await bootstrapUser(await readUsers());
+  const rows = await bootstrapUser(await getUsers());
   const row = rows.find((candidate) => candidate[0]?.toLowerCase() === username.toLowerCase());
   return row ? { username: row[0], displayName: row[2] || row[0], avatar: row[4] || undefined } : null;
 }
@@ -100,7 +121,7 @@ export async function updateUserProfile(
   username: string,
   input: { username: string; displayName: string; password?: string; avatar?: string }
 ): Promise<UserProfile> {
-  const rows = await bootstrapUser(await readUsers());
+  const rows = await bootstrapUser(await getUsers());
   const index = rows.findIndex((row) => row[0]?.toLowerCase() === username.toLowerCase());
   if (index === -1) throw new Error("ไม่พบบัญชีผู้ใช้");
   const nextUsername = input.username.trim();
@@ -118,5 +139,6 @@ export async function updateUserProfile(
     valueInputOption: "RAW",
     requestBody: { values: [updated] },
   });
+  invalidateUsersCache();
   return { username: updated[0], displayName: updated[2], avatar: updated[4] || undefined };
 }
