@@ -34,7 +34,7 @@ export default function LoginPage() {
         <div className="hidden flex-col justify-between bg-gradient-to-br from-primary to-[#1744ad] p-10 text-white md:flex">
           <div>
             <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-2xl font-semibold ring-1 ring-white/30">N</div>
-            <p className="mb-3 text-sm text-blue-100">ระบบจัดการข้อมูลโครงการ</p>
+            <p className="mb-3 text-sm text-blue-100">ระบบสรุปโครงการ</p>
             <h2 className="font-display text-4xl font-semibold leading-tight">จัดการโครงการ<br />ได้ง่ายในที่เดียว</h2>
             <p className="mt-5 max-w-[270px] text-sm leading-7 text-blue-100">
               บันทึก ติดตามงบประมาณ และสรุปผลการดำเนินงานอย่างเป็นระบบ
