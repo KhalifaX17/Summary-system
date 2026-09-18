@@ -17,7 +17,7 @@ const sarabun = Sarabun({
 });
 
 export const metadata: Metadata = {
-  title: "ระบบสรุปโครงการ",
+  title: "ระบบจัดการโครงการ",
   description: "บันทึก ติดตาม และสรุปโครงการของสาขาวิชา ICT",
 };
 

@@ -84,7 +84,7 @@ export async function GET(request: Request) {
     page = pdfDoc.addPage([PAGE_W, PAGE_H]);
     y = PAGE_H - MARGIN;
     page.drawRectangle({ x: 0, y: PAGE_H - 8, width: PAGE_W, height: 8, color: navy });
-    page.drawText("ระบบสรุปโครงการ", { x: MARGIN, y: PAGE_H - 28, size: 9, font: bold, color: muted });
+    page.drawText("ระบบจัดการโครงการ", { x: MARGIN, y: PAGE_H - 28, size: 9, font: bold, color: muted });
     y = PAGE_H - MARGIN - 16;
   };
 

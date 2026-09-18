@@ -26,7 +26,7 @@ export default function HomePage() {
             className="animate-fade-up mb-6 max-w-[720px] font-display text-[48px] font-semibold leading-[1.08] tracking-tight text-ink sm:text-[58px] md:text-[68px]"
             style={{ animationDelay: "0.12s" }}
           >
-            ระบบสรุปโครงการ
+            ระบบจัดการโครงการ
           </h1>
           <p
             className="animate-fade-up mb-10 max-w-[650px] text-[16px] leading-[1.8] text-muted dark:text-[#c8d2e5] sm:text-[18px]"
