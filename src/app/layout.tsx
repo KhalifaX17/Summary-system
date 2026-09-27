@@ -21,10 +21,24 @@ export const metadata: Metadata = {
   description: "บันทึก ติดตาม และสรุปโครงการของสาขาวิชา ICT",
 };
 
+const themeInit = `
+  (() => {
+    try {
+      const savedTheme = localStorage.getItem("summary-theme");
+      const validThemes = ["sunset", "midnight", "forest", "rose"];
+      const nextTheme = validThemes.includes(savedTheme || "") ? savedTheme : "sunset";
+      document.documentElement.dataset.theme = nextTheme;
+    } catch (error) {
+      document.documentElement.dataset.theme = "sunset";
+    }
+  })();
+`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="th" className={`${kanit.variable} ${sarabun.variable} h-full`}>
+    <html lang="th" suppressHydrationWarning className={`${kanit.variable} ${sarabun.variable} h-full`}>
       <body className="min-h-full antialiased">
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         <div className="min-h-screen flex flex-col">
           <Navbar />
           <main className="flex-1 min-w-0">{children}</main>

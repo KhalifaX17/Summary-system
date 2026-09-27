@@ -11,6 +11,17 @@ function fmt(n: number) {
   return (n || 0).toLocaleString("th-TH");
 }
 
+function formatDateTime(value?: string) {
+  if (!value) return undefined;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return undefined;
+  return date.toLocaleString("th-TH", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    hour12: false,
+  });
+}
+
 function Row({ label, value }: { label: string; value?: string }) {
   if (!value) return null;
   return (
@@ -51,6 +62,10 @@ export default function ProjectDetailModal({
           <Row label="ผู้รับผิดชอบ" value={project.owner} />
           <Row label="ปีงบประมาณ" value={project.fiscalYear} />
           <Row label="พันธกิจ" value={project.mission} />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <Row label="วันที่บันทึก" value={formatDateTime(project.createdAt)} />
+          <Row label="แก้ไขล่าสุด" value={formatDateTime(project.updatedAt)} />
         </div>
         <Row label="ตัวบ่งชี้ QA ที่เกี่ยวข้อง" value={project.qaIndicator} />
         <Row

@@ -27,37 +27,86 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="relative flex min-h-[calc(100vh-3.5rem)] items-center justify-center overflow-hidden bg-[#eef3ff] px-5 py-12">
-      <div aria-hidden className="pointer-events-none absolute -left-32 -top-32 h-[460px] w-[460px] rounded-full bg-primary/20 blur-3xl" />
-      <div aria-hidden className="pointer-events-none absolute -bottom-48 -right-28 h-[520px] w-[520px] rounded-full bg-gold/20 blur-3xl" />
-      <div className="relative grid w-full max-w-[980px] overflow-hidden rounded-[28px] border border-white/70 bg-white/80 shadow-[0_24px_70px_rgba(28,41,71,0.16)] backdrop-blur md:grid-cols-[0.9fr_1.1fr]">
-        <div className="hidden flex-col justify-between bg-gradient-to-br from-primary to-[#1744ad] p-10 text-white md:flex">
-          <div>
-            <div className="mb-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-2xl font-semibold ring-1 ring-white/30">N</div>
-            <p className="mb-3 text-sm text-blue-100">ระบบจัดการโครงการ</p>
-            <h2 className="font-display text-4xl font-semibold leading-tight">จัดการโครงการ<br />ได้ง่ายในที่เดียว</h2>
-            <p className="mt-5 max-w-[270px] text-sm leading-7 text-blue-100">
-              บันทึก ติดตามงบประมาณ และสรุปผลการดำเนินงานอย่างเป็นระบบ
-            </p>
+    <main
+      className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10"
+      style={{ background: "radial-gradient(circle at top, color-mix(in srgb, var(--color-gold-soft) 90%, white) 0%, color-mix(in srgb, var(--color-paper) 78%, white) 32%, color-mix(in srgb, var(--color-border) 70%, white) 100%)" }}
+    >
+      <div className="pointer-events-none absolute inset-0">
+        <div className="float-slow absolute left-[8%] top-[18%] h-28 w-28 rounded-full blur-3xl" style={{ backgroundColor: "color-mix(in srgb, var(--color-gold) 48%, white)" }} />
+        <div className="float-slow absolute bottom-[18%] right-[10%] h-36 w-36 rounded-full blur-3xl" style={{ backgroundColor: "color-mix(in srgb, var(--color-primary) 34%, white)" }} />
+      </div>
+
+      <div className="relative w-full max-w-[500px] rounded-[32px] border p-6 shadow-[0_30px_70px_rgba(110,79,50,0.14)] backdrop-blur-sm sm:p-8" style={{ borderColor: "var(--color-border)", backgroundColor: "color-mix(in srgb, var(--color-surface) 96%, transparent)" }}>
+        <div className="mb-6 flex items-center justify-between">
+          <div className="flex h-14 w-14 items-center justify-center rounded-[18px] text-[30px] font-semibold text-white shadow-[0_18px_30px_rgba(217,106,77,0.24)]" style={{ background: "linear-gradient(135deg, var(--color-gold), var(--color-primary))" }}>
+            N
           </div>
-          <p className="text-xs text-blue-100/80">สาขาวิชาเทคโนโลยีสารสนเทศ</p>
+          <div className="rounded-full border px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em]" style={{ borderColor: "var(--color-border)", backgroundColor: "color-mix(in srgb, var(--color-gold-soft) 90%, white)", color: "var(--color-primary-dark)" }}>
+            PORTAL
+          </div>
         </div>
-        <form onSubmit={submit} className="p-8 sm:p-12">
-          <div className="mb-9">
-            <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-xl font-semibold text-white shadow-lg shadow-primary/25 md:hidden">N</div>
-            <h1 className="font-display text-3xl font-semibold tracking-tight text-ink">เข้าสู่ระบบ</h1>
-            <p className="mt-2 text-[15px] text-muted">เข้าสู่ระบบเพื่อจัดการข้อมูลโครงการ</p>
+
+        <div className="mb-7">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.24em]" style={{ color: "var(--color-primary-dark)" }}>Welcome back</p>
+          <h1 className="mt-3 font-display text-[42px] font-semibold leading-none tracking-[-0.06em] sm:text-[46px]" style={{ color: "var(--color-ink)" }}>
+            เข้าสู่ระบบ
+          </h1>
+          <p className="mt-3 text-[15px] leading-6" style={{ color: "var(--color-muted)" }}>
+            เข้าดูและจัดการข้อมูลโครงการของสาขาได้อย่างสะดวกและเป็นระบบ
+          </p>
+        </div>
+
+        <form onSubmit={submit} className="space-y-5">
+          <div className="space-y-2">
+            <label className="block text-[14px] font-medium" style={{ color: "var(--color-ink)" }}>ชื่อผู้ใช้</label>
+            <input
+              type="text"
+              required
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              className="w-full rounded-[16px] border px-4 py-3.5 text-[15px] outline-none transition-all placeholder:text-[#b59d8e] focus:ring-4"
+              style={{
+                borderColor: "var(--color-border)",
+                backgroundColor: "color-mix(in srgb, var(--color-paper) 90%, white)",
+                color: "var(--color-ink)",
+                boxShadow: "0 0 0 0 rgba(0,0,0,0)",
+              }}
+              autoComplete="username"
+              placeholder="กรอกชื่อผู้ใช้"
+            />
           </div>
-          <label className="mb-5 block text-[15px] font-medium text-ink">
-            ชื่อผู้ใช้
-            <input type="text" required value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] outline-none transition-all placeholder:text-muted/60 focus:border-primary focus:ring-4 focus:ring-primary/10" autoComplete="username" placeholder="กรอกชื่อผู้ใช้" />
-          </label>
-          <label className="mb-6 block text-[15px] font-medium text-ink">
-            รหัสผ่าน
-            <input type="password" required value={password} onChange={(event) => setPassword(event.target.value)} className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3.5 text-[15px] outline-none transition-all placeholder:text-muted/60 focus:border-primary focus:ring-4 focus:ring-primary/10" autoComplete="current-password" placeholder="กรอกรหัสผ่าน" />
-          </label>
-          {error && <p className="mb-5 rounded-xl border border-red/20 bg-red/10 px-4 py-3 text-sm text-red">{error}</p>}
-          <button type="submit" disabled={loading} className="w-full rounded-xl bg-primary px-4 py-3.5 text-[15px] font-medium text-white shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:bg-primary-dark disabled:cursor-wait disabled:opacity-60">
+
+          <div className="space-y-2">
+            <label className="block text-[14px] font-medium" style={{ color: "var(--color-ink)" }}>รหัสผ่าน</label>
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              className="w-full rounded-[16px] border px-4 py-3.5 text-[15px] outline-none transition-all placeholder:text-[#b59d8e] focus:ring-4"
+              style={{
+                borderColor: "var(--color-border)",
+                backgroundColor: "color-mix(in srgb, var(--color-paper) 90%, white)",
+                color: "var(--color-ink)",
+                boxShadow: "0 0 0 0 rgba(0,0,0,0)",
+              }}
+              autoComplete="current-password"
+              placeholder="กรอกรหัสผ่าน"
+            />
+          </div>
+
+          {error && (
+            <div className="rounded-[14px] border border-red-200 bg-red-50 px-3 py-2.5 text-[13px] text-red-600">
+              {error}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="hover-lift w-full rounded-[16px] px-4 py-3.5 text-[16px] font-semibold text-white shadow-[0_18px_30px_rgba(217,106,77,0.22)] transition-all hover:brightness-[0.98] disabled:cursor-wait disabled:opacity-60"
+            style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))" }}
+          >
             {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
           </button>
         </form>

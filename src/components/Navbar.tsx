@@ -10,6 +10,15 @@ const NAV_ITEMS = [
   { href: "/projects", label: "รายการโครงการ", exact: false },
 ];
 
+const THEMES = [
+  { key: "sunset", label: "ส้มคลาสสิก", accent: "#f28c28" },
+  { key: "midnight", label: "น้ำเงินเข้ม", accent: "#ff9f43" },
+  { key: "forest", label: "เขียวธรรมชาติ", accent: "#3d9f6a" },
+  { key: "rose", label: "ชมพูอบอุ่น", accent: "#d96a72" },
+] as const;
+
+type ThemeKey = (typeof THEMES)[number]["key"];
+
 function isActive(pathname: string, href: string, exact: boolean): boolean {
   if (exact) return pathname === href;
   return pathname === href || pathname.startsWith(href + "/");
@@ -28,17 +37,22 @@ export default function Navbar() {
   const [profileError, setProfileError] = useState("");
   const [savingProfile, setSavingProfile] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [theme, setTheme] = useState<ThemeKey>("sunset");
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const themeMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("summary-theme");
-    const enabled = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    // Hydrate the persisted theme after the client is available.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setDarkMode(enabled);
-    document.documentElement.classList.toggle("dark", enabled);
+    const savedTheme = localStorage.getItem("summary-theme");
+    const safeTheme = THEMES.some((entry) => entry.key === savedTheme) ? (savedTheme as ThemeKey) : "sunset";
+    setTheme(safeTheme);
+    document.documentElement.dataset.theme = safeTheme;
   }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem("summary-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     if (isPublicPage) return;
@@ -60,16 +74,10 @@ export default function Navbar() {
     return () => window.removeEventListener("profile-updated", updateProfile);
   }, []);
 
-  function toggleTheme() {
-    const next = !darkMode;
-    setDarkMode(next);
-    localStorage.setItem("summary-theme", next ? "dark" : "light");
-    document.documentElement.classList.toggle("dark", next);
-  }
-
   useEffect(() => {
     function close(event: MouseEvent) {
       if (!menuRef.current?.contains(event.target as Node)) setOpen(false);
+      if (!themeMenuRef.current?.contains(event.target as Node)) setThemeMenuOpen(false);
     }
     document.addEventListener("mousedown", close);
     return () => document.removeEventListener("mousedown", close);
@@ -113,30 +121,82 @@ export default function Navbar() {
   }
 
   return (
-    <header className="relative z-50 h-16 shrink-0 overflow-visible bg-surface/95 border-b border-border/80 flex items-center justify-end px-4 sm:px-6 md:px-10 backdrop-blur-sm">
+    <header
+      className="relative z-50 flex h-16 shrink-0 items-center justify-end overflow-visible border-b px-4 backdrop-blur-sm sm:px-6 md:px-10"
+      style={{
+        backgroundColor: "var(--color-surface)",
+        borderColor: "var(--color-border)",
+      }}
+    >
       <nav className="flex items-center gap-1">
-        <button
-          type="button"
-          onClick={toggleTheme}
-          aria-label={darkMode ? "เปลี่ยนเป็นโหมดสว่าง" : "เปลี่ยนเป็นโหมดมืด"}
-          title={darkMode ? "โหมดสว่าง" : "โหมดมืด"}
-          className="mr-1 flex h-11 w-11 items-center justify-center rounded-lg text-xl text-muted transition-colors hover:bg-paper hover:text-ink"
-        >
-          {darkMode ? "☀" : "☾"}
-        </button>
+        <div className="relative" ref={themeMenuRef}>
+          <button
+            type="button"
+            onClick={() => setThemeMenuOpen((value) => !value)}
+            aria-label="เลือกธีมระบบ"
+            title="เลือกธีมระบบ"
+            className="hover-lift mr-1 flex h-11 w-11 items-center justify-center rounded-xl text-xl shadow-sm transition-all"
+            style={{
+              color: "var(--color-primary)",
+              backgroundColor: "color-mix(in srgb, var(--color-primary) 10%, var(--color-surface))",
+              border: "1px solid var(--color-border)",
+            }}
+          >
+            🎨
+          </button>
+          {themeMenuOpen && (
+            <div
+              className="absolute right-0 top-12 z-[120] w-56 rounded-2xl border p-2.5 shadow-[0_22px_44px_rgba(18,16,15,0.14)]"
+              style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-surface)" }}
+            >
+              <div className="mb-2 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">ธีมระบบ</div>
+              {THEMES.map((item) => (
+                <button
+                  key={item.key}
+                  type="button"
+                  onClick={() => {
+                    setTheme(item.key);
+                    setThemeMenuOpen(false);
+                  }}
+                  className="flex w-full items-center justify-between rounded-xl px-2.5 py-2.5 text-left text-[13px] transition-all"
+                  style={
+                    theme === item.key
+                      ? {
+                          backgroundColor: "color-mix(in srgb, var(--color-primary) 12%, white)",
+                          color: "var(--color-primary)",
+                          boxShadow: "inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 25%, transparent)",
+                        }
+                      : { color: "var(--color-ink)" }
+                  }
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="h-3.5 w-3.5 rounded-full" style={{ background: item.accent }} />
+                    {item.label}
+                  </span>
+                  {theme === item.key && <span className="text-base">✓</span>}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
         {visibleItems.map(({ href, label, exact }) => {
           const active = isActive(pathname, href, exact);
           return (
             <Link
               key={href}
               href={href}
-              className={`relative px-4 py-2.5 rounded-[9px] text-[14px] sm:text-[15px] transition-all active:scale-[0.96] ${
-                active ? "text-white" : "text-muted hover:bg-paper hover:text-ink"
+              className={`hover-lift relative rounded-[9px] px-4 py-2.5 text-[14px] transition-all active:scale-[0.96] sm:text-[15px] ${
+                active ? "text-white" : "text-muted hover:bg-[#fff3e9] hover:text-primary"
               }`}
+              style={
+                active
+                  ? {
+                      background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))",
+                      boxShadow: "0 10px 22px color-mix(in srgb, var(--color-primary) 25%, transparent)",
+                    }
+                  : undefined
+              }
             >
-              {active && (
-                <span className="absolute inset-0 rounded-[8px] bg-gradient-to-r from-primary to-[#4d84f5]" />
-              )}
               <span className="relative">{label}</span>
             </Link>
           );
@@ -144,7 +204,7 @@ export default function Navbar() {
         {isPublicPage && (
           <Link
             href="/login"
-            className="ml-2 rounded-[9px] bg-primary px-4 py-2 text-[13px] font-medium text-white shadow-sm transition-colors hover:bg-primary-dark"
+            className="ml-2 rounded-[9px] bg-primary px-4 py-2 text-[13px] font-medium text-white shadow-[0_10px_24px_rgba(242,140,40,0.18)] transition-colors hover:bg-primary-dark"
           >
             เข้าสู่ระบบ
           </Link>

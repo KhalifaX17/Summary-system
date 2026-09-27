@@ -19,7 +19,7 @@ export default function ProfilePage() {
   useEffect(() => {
     fetch("/api/auth/profile").then(async (response) => {
       if (response.ok) {
-        const data = await response.json() as Profile;
+        const data = (await response.json()) as Profile;
         setProfile(data);
         setUsername(data.username);
         setDisplayName(data.displayName);
@@ -83,53 +83,69 @@ export default function ProfilePage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-3.5rem)] bg-paper px-5 py-8 sm:px-8 md:px-12">
-      <div className="mx-auto max-w-[980px]">
+    <main className="min-h-[calc(100vh-3.5rem)] px-5 py-8 sm:px-8 md:px-12" style={{ backgroundColor: "var(--color-paper)" }}>
+      <div className="mx-auto max-w-[1100px]">
         <div className="mb-8">
-          <p className="text-sm font-medium text-primary">บัญชีผู้ใช้งาน</p>
+          <p className="text-sm font-medium" style={{ color: "var(--color-primary)" }}>บัญชีผู้ใช้งาน</p>
           <h1 className="mt-1 font-display text-3xl font-semibold text-ink">ข้อมูลส่วนตัว</h1>
           <p className="mt-2 text-[15px] text-muted">จัดการข้อมูลที่ใช้แสดงและการรักษาความปลอดภัยของบัญชี</p>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-[280px_1fr]">
-          <section className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
-            <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-[#1744ad] text-4xl font-semibold text-white shadow-lg shadow-primary/20">
+        <div className="grid gap-5 lg:grid-cols-[300px_1fr]">
+          <section className="rounded-[28px] border bg-white p-6 shadow-[0_20px_35px_rgba(123,77,39,0.06)]" style={{ borderColor: "var(--color-border)" }}>
+            <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-[28px] text-4xl font-semibold text-white shadow-[0_18px_28px_rgba(242,140,40,0.2)]" style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-gold))" }}>
               {avatar && !removeAvatar ? <img src={avatar} alt="รูปโปรไฟล์" className="h-full w-full object-cover" /> : (profile.displayName || "N").slice(0, 1).toUpperCase()}
             </div>
-            <label className="mt-4 inline-flex cursor-pointer rounded-lg border border-border px-3 py-2 text-sm font-medium text-ink hover:bg-paper">
+            <label className="mt-4 inline-flex cursor-pointer rounded-xl border px-3 py-2 text-sm font-medium text-ink transition-colors" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-paper)" }}>
               เปลี่ยนรูปโปรไฟล์
               <input type="file" accept="image/*" onChange={selectAvatar} className="sr-only" />
             </label>
             {avatar && <button type="button" onClick={() => setRemoveAvatar(true)} className="ml-2 text-sm text-red hover:underline">ลบรูป</button>}
-            <h2 className="mt-5 font-display text-xl font-semibold text-ink">{profile.displayName}</h2>
+            <h2 className="mt-5 font-display text-[24px] font-semibold text-ink">{profile.displayName}</h2>
             <p className="mt-1 text-sm text-muted">@{profile.username}</p>
-            <div className="mt-6 rounded-xl bg-primary/5 px-4 py-3 text-sm leading-relaxed text-muted">
+            <div className="mt-6 rounded-2xl px-4 py-3 text-sm leading-relaxed text-muted" style={{ backgroundColor: "color-mix(in srgb, var(--color-gold-soft) 90%, white)" }}>
               บัญชีนี้ใช้สำหรับจัดการข้อมูลโครงการและรายงานของระบบ
             </div>
           </section>
 
-          <form onSubmit={save} className="rounded-2xl border border-border bg-surface shadow-sm">
-            <div className="border-b border-border px-6 py-5 sm:px-8">
-              <h2 className="font-display text-xl font-semibold text-ink">ตั้งค่าโปรไฟล์</h2>
+          <form onSubmit={save} className="overflow-hidden rounded-[28px] border bg-white shadow-[0_20px_35px_rgba(123,77,39,0.06)]" style={{ borderColor: "var(--color-border)" }}>
+            <div className="border-b px-6 py-5 sm:px-8" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-paper)" }}>
+              <h2 className="font-display text-[24px] font-semibold text-ink">ตั้งค่าโปรไฟล์</h2>
               <p className="mt-1 text-sm text-muted">ข้อมูลจะแสดงในเมนูโปรไฟล์ด้านขวาบน</p>
             </div>
+
             <div className="space-y-6 px-6 py-6 sm:px-8">
               <label className="block text-sm font-medium text-ink">
                 ชื่อที่แสดง
-                <input value={displayName} onChange={(event) => setDisplayName(event.target.value)} required className="mt-2 w-full rounded-xl border border-border bg-surface px-4 py-3.5 text-[15px] outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/10" placeholder="เช่น ผู้ดูแลระบบ" />
+                <input
+                  value={displayName}
+                  onChange={(event) => setDisplayName(event.target.value)}
+                  required
+                  className="mt-2 w-full rounded-2xl border px-4 py-3.5 text-[15px] text-ink outline-none transition-all focus:border-primary focus:ring-4 focus:ring-primary/10"
+                  style={{ borderColor: "var(--color-border)", backgroundColor: "color-mix(in srgb, var(--color-surface) 96%, white)" }}
+                  placeholder="เช่น ผู้ดูแลระบบ"
+                />
                 <span className="mt-1.5 block text-xs font-normal text-muted">ใช้ชื่อที่ต้องการให้แสดงในระบบ</span>
               </label>
+
               <label className="block text-sm font-medium text-ink">
                 ชื่อผู้ใช้
-                <input value={username} readOnly className="mt-2 w-full cursor-not-allowed rounded-xl border border-border bg-paper px-4 py-3.5 text-[15px] text-muted outline-none" />
+                <input
+                  value={username}
+                  readOnly
+                  className="mt-2 w-full cursor-not-allowed rounded-2xl border px-4 py-3.5 text-[15px] text-muted outline-none"
+                  style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-paper)" }}
+                />
                 <span className="mt-1.5 block text-xs font-normal text-muted">ชื่อผู้ใช้และรหัสผ่านจัดการจาก Environment Variables</span>
               </label>
-              {message && <p className="rounded-xl border border-green/20 bg-green/10 px-4 py-3 text-sm text-green">{message}</p>}
-              {error && <p className="rounded-xl border border-red/20 bg-red/10 px-4 py-3 text-sm text-red">{error}</p>}
+
+              {message && <p className="rounded-2xl border border-green/20 bg-green/10 px-4 py-3 text-sm text-green">{message}</p>}
+              {error && <p className="rounded-2xl border border-red/20 bg-red/10 px-4 py-3 text-sm text-red">{error}</p>}
             </div>
-            <div className="flex justify-end gap-3 border-t border-border bg-paper/40 px-6 py-4 sm:px-8">
-              <button type="button" onClick={() => router.back()} className="rounded-xl px-5 py-2.5 text-sm font-medium text-muted hover:bg-paper hover:text-ink">ยกเลิก</button>
-              <button type="submit" disabled={saving} className="rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary-dark disabled:cursor-wait disabled:opacity-60">{saving ? "กำลังบันทึก..." : "บันทึกการเปลี่ยนแปลง"}</button>
+
+            <div className="flex justify-end gap-3 border-t px-6 py-4 sm:px-8" style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-paper)" }}>
+              <button type="button" onClick={() => router.back()} className="rounded-xl px-5 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-white hover:text-ink">ยกเลิก</button>
+              <button type="submit" disabled={saving} className="rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(242,140,40,0.22)] transition-colors hover:bg-primary-dark disabled:cursor-wait disabled:opacity-60">{saving ? "กำลังบันทึก..." : "บันทึกการเปลี่ยนแปลง"}</button>
             </div>
           </form>
         </div>

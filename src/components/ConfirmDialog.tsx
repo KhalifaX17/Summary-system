@@ -54,8 +54,9 @@ export default function ConfirmDialog({
           onClick={onConfirm}
           disabled={loading}
           className={`px-4 py-2.5 rounded-[9px] text-white text-[13.5px] font-medium transition-all active:scale-[0.97] disabled:opacity-60 ${
-            danger ? "bg-red hover:bg-[#c23c26]" : "bg-primary hover:bg-primary-dark"
+            danger ? "bg-red" : "bg-primary"
           }`}
+          style={danger ? { backgroundColor: "var(--color-red)" } : { backgroundColor: "var(--color-primary)" }}
         >
           {loading ? "กำลังดำเนินการ..." : confirmLabel}
         </button>

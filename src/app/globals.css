@@ -1,35 +1,76 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
-  --color-navy: #1c2947;
-  --color-navy-deep: #121b30;
-  --color-primary: #2f6fed;
-  --color-primary-dark: #1f52c4;
-  --color-gold: #b6813a;
-  --color-gold-soft: #f0dfbb;
-  --color-paper: #f4f6fb;
+  --color-navy: #2d1a12;
+  --color-navy-deep: #1f120d;
+  --color-primary: #f28c28;
+  --color-primary-dark: #dd6b18;
+  --color-gold: #edb059;
+  --color-gold-soft: #fff2dc;
+  --color-paper: #fffaf5;
   --color-surface: #ffffff;
-  --color-border: #e3e7f1;
-  --color-ink: #182238;
-  --color-muted: #64708a;
-  --color-green: #1fa971;
-  --color-amber: #e8a63a;
-  --color-red: #e0523f;
+  --color-border: #f3d8ba;
+  --color-ink: #2b211d;
+  --color-muted: #6f5c52;
+  --color-green: #3ba36c;
+  --color-amber: #eea43c;
+  --color-red: #de5d4a;
 }
 
-html.dark {
-  --color-paper: #182338;
-  --color-surface: #202d43;
-  --color-border: #3a4b66;
-  --color-ink: #f4f7ff;
-  --color-muted: #c0cbe0;
-  --color-navy: #243654;
-  --color-navy-deep: #16233b;
-  --color-primary: #4d82f2;
-  --color-primary-dark: #3c6fd6;
-  --color-gold-soft: #624f32;
+html[data-theme="sunset"] {
+  --color-navy: #2d1a12;
+  --color-navy-deep: #1f120d;
+  --color-primary: #f28c28;
+  --color-primary-dark: #dd6b18;
+  --color-gold: #edb059;
+  --color-gold-soft: #fff2dc;
+  --color-paper: #fffaf5;
+  --color-surface: #ffffff;
+  --color-border: #f3d8ba;
+  --color-ink: #2b211d;
+  --color-muted: #6f5c52;
+}
+
+html[data-theme="midnight"] {
+  --color-navy: #182338;
+  --color-navy-deep: #0d1729;
+  --color-primary: #ff9f43;
+  --color-primary-dark: #e07f22;
+  --color-gold: #f3b861;
+  --color-gold-soft: #f7e7cb;
+  --color-paper: #f5f7fb;
+  --color-surface: #ffffff;
+  --color-border: #dfe8f9;
+  --color-ink: #1a2437;
+  --color-muted: #5d6d82;
+}
+
+html[data-theme="forest"] {
+  --color-navy: #19362f;
+  --color-navy-deep: #112823;
+  --color-primary: #3d9f6a;
+  --color-primary-dark: #287a4b;
+  --color-gold: #d69842;
+  --color-gold-soft: #ebf5e8;
+  --color-paper: #f4fbf8;
+  --color-surface: #ffffff;
+  --color-border: #d8eae0;
+  --color-ink: #163129;
+  --color-muted: #53726a;
+}
+
+html[data-theme="rose"] {
+  --color-navy: #3d2430;
+  --color-navy-deep: #261a1f;
+  --color-primary: #d96a72;
+  --color-primary-dark: #b74d58;
+  --color-gold: #d7a364;
+  --color-gold-soft: #fce9ea;
+  --color-paper: #fff8f8;
+  --color-surface: #ffffff;
+  --color-border: #f4d9dc;
+  --color-ink: #2d1d23;
+  --color-muted: #745d63;
 }
 
 @theme inline {
@@ -51,41 +92,19 @@ html.dark {
   --font-sarabun: var(--font-sarabun);
 }
 
+html {
+  transition: background-color 220ms ease;
+}
+
 body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sarabun), sans-serif;
+  transition: background-color 220ms ease, color 220ms ease;
 }
 
-html.dark body {
-  background: var(--color-paper);
-}
-
-html.dark {
-  color-scheme: dark;
-}
-
-html:not(.dark) {
-  color-scheme: light;
-}
-
-html.dark .bg-white,
-html.dark .bg-surface {
-  background-color: var(--color-surface);
-}
-
-html.dark input,
-html.dark select {
-  color: var(--color-ink);
-  background-color: #263650;
-}
-
-html.dark input::placeholder {
-  color: #9eabc1;
-}
-
-html.dark [class*="bg-[#eef3ff]"] {
-  background: #182338;
+* {
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease, box-shadow 220ms ease, fill 220ms ease;
 }
 
 h1, h2, h3, .font-display {
@@ -136,14 +155,55 @@ h1, h2, h3, .font-display {
   }
 }
 
+@keyframes softFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes softPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(242, 140, 40, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(242, 140, 40, 0);
+  }
+}
+
 .animate-count {
   animation: countUpFade 0.45s ease-out both;
+}
+
+.hover-lift {
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(123, 77, 39, 0.08);
+}
+
+.float-slow {
+  animation: softFloat 8s ease-in-out infinite;
+}
+
+.glow-soft {
+  animation: softPulse 4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
   .animate-float-slow,
-  .animate-count {
+  .animate-count,
+  .float-slow,
+  .glow-soft,
+  .hover-lift {
     animation: none;
+    transition: none;
   }
 }

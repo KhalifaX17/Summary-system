@@ -16,7 +16,7 @@ import {
 } from "./types";
 
 const SHEET_NAME = "Projects";
-const RANGE = `${SHEET_NAME}!A:Z`;
+const RANGE = `${SHEET_NAME}!A:AB`;
 
 let sheetReadyPromise: Promise<number> | null = null;
 

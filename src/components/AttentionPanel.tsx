@@ -10,33 +10,36 @@ export default function AttentionPanel({ items }: { items: AttentionItem[] }) {
   const [selected, setSelected] = useState<Project | null>(null);
 
   return (
-    <div className="bg-surface border border-border rounded-xl p-4 shadow-sm">
-      <div className="flex items-center gap-2 mb-4">
-        <IconAlert className="text-gold" />
-        <h3 className="font-display font-semibold text-[14px]">ต้องติดตาม</h3>
+    <div className="rounded-[22px] border p-4 shadow-[0_16px_32px_rgba(123,77,39,0.05)]" style={{ borderColor: "var(--color-border)", background: "linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 100%, white) 0%, color-mix(in srgb, var(--color-paper) 100%, white) 100%)" }}>
+      <div className="mb-4 flex items-center gap-2">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ backgroundColor: "color-mix(in srgb, var(--color-gold-soft) 92%, white)", color: "var(--color-primary)" }}>
+          <IconAlert className="text-gold" />
+        </div>
+        <h3 className="font-display text-[18px] font-semibold text-ink">ต้องติดตาม</h3>
       </div>
 
       {items.length === 0 ? (
-        <p className="text-[12px] text-muted py-2">ไม่มีโครงการที่ต้องเฝ้าระวังตอนนี้</p>
+        <p className="py-2 text-[12px] text-muted">ไม่มีโครงการที่ต้องเฝ้าระวังตอนนี้</p>
       ) : (
-        <div className="space-y-1">
+        <div className="space-y-2">
           {items.slice(0, 6).map((item, i) => (
             <button
               key={`${item.project.id}-${item.reason}-${i}`}
               type="button"
               onClick={() => setSelected(item.project)}
-              className="w-full flex items-center gap-3 py-2.5 border-t border-border first:border-t-0 hover:bg-paper/60 -mx-2 px-2 rounded-lg text-left transition-all active:scale-[0.99] active:bg-paper"
+              className="hover-lift flex w-full items-center gap-3 rounded-[14px] border bg-white/80 px-2.5 py-2.5 text-left transition-all active:scale-[0.99]"
+              style={{ borderColor: "var(--color-border)", backgroundColor: "color-mix(in srgb, var(--color-surface) 90%, white)" }}
             >
               <div
-                className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
+                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
                   item.reason === "deadline" ? "bg-amber/10 text-amber" : "bg-red/10 text-red"
                 }`}
               >
                 {item.reason === "deadline" ? <IconClock /> : <IconBudget />}
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-[13px] truncate">{item.project.projectName}</div>
-                <div className="text-[11.5px] text-muted">{item.detail}</div>
+                <div className="truncate text-[13px] font-medium text-ink">{item.project.projectName}</div>
+                <div className="mt-0.5 text-[11.5px] text-muted">{item.detail}</div>
               </div>
             </button>
           ))}

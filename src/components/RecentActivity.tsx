@@ -19,25 +19,33 @@ export default function RecentActivity({ projects }: { projects: Project[] }) {
   const [selected, setSelected] = useState<Project | null>(null);
 
   return (
-    <div className="bg-surface border border-border rounded-xl p-4 shadow-sm">
-      <h3 className="font-display font-semibold text-[14px] mb-3">กิจกรรมล่าสุด</h3>
+    <div className="rounded-[22px] border bg-white p-4 shadow-[0_16px_32px_rgba(123,77,39,0.05)]" style={{ borderColor: "var(--color-border)" }}>
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h3 className="font-display text-[18px] font-semibold text-ink">กิจกรรมล่าสุด</h3>
+        <span className="rounded-full px-2.5 py-1 text-[11px] font-medium" style={{ backgroundColor: "color-mix(in srgb, var(--color-gold-soft) 90%, white)", color: "var(--color-primary)" }}>
+          {projects.length} รายการ
+        </span>
+      </div>
 
       {projects.length === 0 ? (
-        <p className="text-[12px] text-muted py-2">ยังไม่มีความเคลื่อนไหว</p>
+        <p className="py-2 text-[12px] text-muted">ยังไม่มีความเคลื่อนไหว</p>
       ) : (
-        <div className="space-y-1">
+        <div className="space-y-2">
           {projects.map((p) => (
             <button
               key={p.id}
               type="button"
               onClick={() => setSelected(p)}
-              className="w-full flex items-center justify-between gap-3 py-2.5 border-t border-border first:border-t-0 hover:bg-paper/60 -mx-2 px-2 rounded-lg text-left transition-all active:scale-[0.99] active:bg-paper"
+              className="hover-lift w-full rounded-[14px] border px-3 py-3 text-left transition-all active:scale-[0.99]"
+              style={{ borderColor: "var(--color-border)", backgroundColor: "color-mix(in srgb, var(--color-paper) 90%, white)" }}
             >
-              <div className="min-w-0 flex-1">
-                <div className="text-[13px] truncate">{p.projectName}</div>
-                <div className="text-[11.5px] text-muted">{timeAgo(p.updatedAt)}</div>
+              <div className="flex items-center justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <div className="truncate text-[13px] font-medium text-ink">{p.projectName}</div>
+                  <div className="mt-1 text-[11.5px] text-muted">{timeAgo(p.updatedAt)}</div>
+                </div>
+                <StatusBadge status={p.status} />
               </div>
-              <StatusBadge status={p.status} />
             </button>
           ))}
         </div>
